@@ -1,0 +1,472 @@
+/* ----------------------------------------------------------------
+   var.css（共通デザイントークン）
+   目的：
+    - 全画面で共有する色/余白/影/フォント等の"単一の定義源（SSOT）"。
+    - コンポーネントは var(--xxx) 経由で参照し、値はここだけで管理する。
+
+   使い方の約束：
+    - 値の直書き禁止（例：color:#0d6efd; → color:var(--color-primary);）
+    - 画面/フラグメント用の派生変数が欲しい場合は、まずここに"用途名"で追加する。
+    - ブレークポイント上書きは下段の @media 内で、テーマ上書きは .dark-theme で行う。
+
+   主な変数群の意味：
+    - --color-*：色（Primary/Secondary/... Text/Background 含む）
+    - --spacer-*：余白スケール（rem）
+    - --radius*：角丸
+    - --shadow*：影
+    - --transition-*：トランジション
+    - --max-width-*, --container-*：レイアウト最大幅/左右Padding
+    - --font-*, --line-height-*：フォント/行間
+    - --zindex-*：レイヤ順（UI重なり制御）
+    - コンポ別：--btn-*, --pagination-*, --grid-*, --select-*, --form-*,
+                --table-*, --tooltip-*, --alert-*, --offcanvas-*, --navbar-*,
+                --accordion-*, --dropdown-*, --footer-*
+------------------------------------------------------------------*/
+
+:root {
+	/* ========== Colors（基本色） ========== */
+	/* Primary/Secondary/Success/Danger/Warning/Info 系（通常/hover） */
+	--color-primary: #0d6efd;
+	--color-primary-hover: #0b5ed7;
+
+	--color-secondary: #6c757d;
+	--color-secondary-hover: #5c636a;
+
+	--color-success: #198754;
+	--color-success-hover: #157347;
+
+	--color-danger: #dc3545;
+	--color-danger-hover: #bb2d3b;
+
+	--color-warning: #ffc107;
+	--color-warning-hover: #ffca2c;
+
+	--color-info: #0dcaf0;
+	--color-info-hover: #31d2f2;
+
+	/* Light / Dark */
+	--color-light: #f8f9fa;
+	--color-light-hover: #f9fafb;
+	--color-dark: #212529;
+	--color-dark-hover: #1c1f23;
+	
+	/* Primary / Secondary / Success / Danger / Warning / Info */
+	--color-on-primary: #fff;
+	--color-primary-border: #0a58ca;
+
+	--color-on-secondary: #fff;
+	--color-secondary-border: #565e64;
+
+	--color-on-success: #fff;
+	--color-success-border: #146c43;
+
+	--color-on-danger: #fff;
+	--color-danger-border: #b02a37;
+
+	--color-on-warning: #000;
+	--color-warning-border: #e0a800;
+
+	--color-on-info: #000;
+	--color-info-border: #0aa2c0;
+
+	/* Light / Dark */
+	--color-on-light: #000;
+	--color-light-border: #d3d3d4;
+
+	--color-on-dark: #fff;
+	--color-dark-border: #1a1e21;
+	
+	/* pink */
+	--color-pink: #d63384;
+	--color-pink-hover: #b42c6f;
+	--color-on-pink: #fff;
+	--color-pink-border: #ab296a;
+
+	/* orange */
+	--color-orange: #fd7e14;
+	--color-orange-hover: #e36f12;
+	--color-on-orange: #000;
+	--color-orange-border: #dc6a0a;
+
+	/* lime（黄緑） */
+	--color-lime: #84cc16;
+	--color-lime-hover: #65a30d;
+	--color-on-lime: #000;
+	--color-lime-border: #65a30d;
+
+	/* teal */
+	--color-teal: #20c997;
+	--color-teal-hover: #1aa179;
+	--color-on-teal: #000;
+	--color-teal-border: #1aa179;
+
+	/* indigo */
+	--color-indigo: #6610f2;
+	--color-indigo-hover: #520dc2;
+	--color-on-indigo: #fff;
+	--color-indigo-border: #520dc2;
+
+	/* purple */
+	--color-purple: #6f42c1;
+	--color-purple-hover: #59359a;
+	--color-on-purple: #fff;
+	--color-purple-border: #59359a;
+
+	/* cyan */
+	--color-cyan: #0dcaf0;
+	--color-cyan-hover: #0bbbe5;
+	--color-on-cyan: #000;
+	--color-cyan-border: #0aa2c0;
+
+	/* brown */
+	--color-brown: #795548;
+	--color-brown-hover: #6d4c41;
+	--color-on-brown: #fff;
+	--color-brown-border: #5d4037;
+
+	/* gray */
+	--color-gray: #adb5bd;
+	--color-gray-hover: #9da5ad;
+	--color-on-gray: #000;
+	--color-gray-border: #929aa3;
+
+	/* テキスト/背景（本文・ベースカラー） */
+	--color-text: #212529;
+	--color-muted: #6c757d;
+	--color-bg: #f8f9fa;
+
+	/* ========== Spacing（余白スケール） ========== */
+	--spacer-1: 0.25rem;
+	--spacer-2: 0.5rem;
+	--spacer-3: 1rem;
+	--spacer-4: 1.5rem;
+	--spacer-5: 3rem;
+
+	/* ========== Border（枠線） ========== */
+	--border-width: 1px;
+	--border-color: #dee2e6;
+	--border-color-dark: #6c757d;
+	--border-style: solid;
+
+	/* ========== Radius（角丸） ========== */
+	--radius-sm: 0.2rem;
+	--radius: 0.375rem;
+	--radius-lg: 0.5rem;
+	--radius-pill: 50rem;
+
+	/* ========== Shadow（影） ========== */
+	--shadow-sm: 0 .125rem .25rem rgba(0, 0, 0, 0.075);
+	--shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+	--shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+
+	/* ========== Transition（遷移） ========== */
+	--transition-fast: 0.15s ease-out;
+	--transition-base: 0.3s ease-out;
+	--transition-slow: 0.5s ease-out;
+
+	/* ========== Layout（幅/高さ・レイアウト系） ========== */
+	--max-width-xs: 320px;
+	--max-width-sm: 400px;
+	--max-width-md: 600px;
+	--max-width-lg: 960px;
+	--max-width-xl: 1200px;
+
+	--height-xs: 40%;
+	--height-sm: 60%;
+	--height-md: 70%;
+	--height-lg: 80%;
+	--height-full: 100%;
+
+	/* ========== Font（書体/サイズ/太さ/行間） ========== */
+	--font-family-sans: "Helvetica Neue", Arial, sans-serif;
+	--font-family-mono: "Courier New", monospace;
+
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-lg: 1.25rem;
+	--font-size-xl: 1.5rem;
+	--font-size-xxl: 2rem;
+
+	--font-weight-light: 300;
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	--line-height-xs: 1;
+	--line-height-sm: 1.25;
+	--line-height-base: 1.5;
+	--line-height-lg: 2;
+
+	--letter-spacing-tight: -0.02em;
+	--letter-spacing-normal: 0;
+	--letter-spacing-wide: 0.05em;
+
+	/* 不透明度（各UIの状態表現に使用） */
+	--opacity-0: 0;
+	--opacity-25: 0.25;
+	--opacity-50: 0.5;
+	--opacity-75: 0.75;
+	--opacity-100: 1;
+
+	/* ========== Input / Form（入力パーツの余白） ========== */
+	--input-padding-y: 0.75rem;
+	--input-padding-x: 0.75rem;
+	--input-padding-top: 1.25rem;
+	--input-padding-bottom: 0.5rem;
+
+	/* ========== Z-Index（レイヤ順） ========== */
+	--zindex-auto: auto;
+	--zindex-dropdown: 1000;
+	--zindex-sticky: 1020;
+	--zindex-fixed: 1030;
+	--zindex-offcanvas-backdrop: 1040;
+	--zindex-offcanvas: 1045;
+	--zindex-toast: 1060;
+	--zindex-popover: 1070;
+	--zindex-tooltip: 1080;
+	--zindex-fade: 1090;         /* フェードアニメ専用 */
+	--zindex-overlay: 1100;      /* 背景暗幕 */
+	--zindex-alert: 1110;        /* 常時上に出る警告 */
+	--zindex-navbar: 1120;       /* 固定ナビゲーション */
+	--zindex-modal: 1130;
+	--zindex-modal-dialog: 1135;
+	--zindex-max: 1200;          /* システム最上層（緊急モーダル等） */
+
+	/* ========== Buttons（ボタン共通） ========== */
+	--btn-padding-y: 0.375rem;
+	--btn-padding-x: 0.75rem;
+	--btn-padding-y-sm: 0.25rem;
+	--btn-padding-x-sm: 0.5rem;
+	--btn-font-size: var(--font-size-base);
+	--btn-font-size-sm: var(--font-size-sm);
+	--btn-radius: var(--radius);
+	--btn-horiz-min: 3rem;
+
+	/* ========== Pagination（ページネーション） ========== */
+	--pagination-padding-y: 0.375rem; /* 垂直余白 */
+	--pagination-padding-x: 0.75rem;  /* 水平方向余白 */
+	--pagination-margin-y: 1rem;      /* 上下余白 */
+	--pagination-gap: -1px;           /* ボタン間の重なり調整 */
+	--pagination-font-size: var(--font-size-base);
+	--pagination-border-color: var(--color-secondary);
+	--pagination-hover-bg: var(--color-secondary);
+	--pagination-hover-color: var(--color-light);
+	--pagination-disabled-bg: var(--color-light);
+	--pagination-disabled-color: var(--color-muted);
+	--pagination-active-bg: var(--color-primary);
+	--pagination-active-color: var(--color-light);
+	--pagination-active-border: var(--color-primary);
+	--pagination-active-hover-bg: var(--color-primary-hover);
+
+	/* ========== Grid / Card / Link Block（カードグリッド系） ========== */
+	--grid-gutter-x: var(--spacer-2); /* 横余白 */
+	--grid-gutter-y: var(--spacer-2); /* 縦余白 */
+	--grid-gap-sm: var(--spacer-1);
+	--grid-gap-md: var(--spacer-2);
+	--grid-gap-lg: var(--spacer-3);
+	--grid-card-min-width: 200px;    /* 最小カード幅 */
+	--grid-card-max-width: 320px;    /* 最大カード幅 */
+	--grid-one-col-breakpoint: 360px;/* ここ以下で1列 */
+
+	--grid-card-bg: var(--color-light);
+	--grid-card-bg-hover: var(--color-light-hover);
+	--grid-card-color: var(--color-text);
+	--grid-card-color-hover: var(--color-secondary);
+	--grid-card-border: var(--border-color);
+	--grid-card-border-hover: var(--color-secondary);
+	--grid-card-shadow: var(--shadow-sm);
+	--grid-card-shadow-hover: var(--shadow);
+
+	/* リンク共通（セカンダリ/汎用） */
+	--link-color-secondary: var(--color-secondary);
+	--link-color-secondary-hover: var(--color-secondary-hover);
+
+	--grid-font-size: var(--font-size-sm);
+	--grid-border-radius: var(--radius);
+
+	/* ========== Select / Dropdown 共通 ========== */
+	--select-padding-y: 0.375rem;
+	--select-padding-x: 0.75rem;
+	--select-font-size: var(--font-size-base);
+	--select-line-height: var(--line-height-base);
+	--select-color: var(--color-text);
+	--select-bg: var(--color-light);
+	--select-border-color: var(--border-color);
+	--select-border-radius: var(--radius);
+	--select-icon-size: 1rem;
+	--select-focus-shadow: 0 0 0 0.2rem rgba(13, 110, 253, var(--opacity-25));
+
+	/* ========== Form（共通） ========== */
+	--form-padding-x: 0.75rem;         /* 左右内側余白 */
+	--form-padding-y: 1.25rem;         /* 上パディング */
+	--form-padding-bottom: 0.5rem;     /* 下パディング */
+
+	--form-label-offset: 0.8rem;       /* フォーカス時のラベル上位置 */
+	--form-label-initial: 1rem;        /* 初期ラベル縦位置 */
+	--form-label-bg: var(--color-light);
+	--form-label-color: var(--color-muted);
+	--form-label-transition: var(--transition-fast);
+
+	/* ========== Table ========== */
+	--table-header-bg: var(--color-dark);
+	--table-header-color: var(--color-light);
+	--table-body-bg: var(--color-light);
+	--table-border-color: var(--border-color);
+	--table-row-striped-bg: var(--color-light-hover);
+	--table-row-hover-bg: rgba(0, 0, 0, 0.05);
+	--table-cell-padding-x: 0.75rem;
+	--table-cell-padding-y: 0.75rem;
+
+	/* ========== Tooltip ========== */
+	--tooltip-bg: var(--color-dark);
+	--tooltip-color: var(--color-light);
+	--tooltip-opacity: 0;
+	--tooltip-padding-x: 0.6rem;
+	--tooltip-padding-y: 0.35rem;
+	--tooltip-font-size: var(--font-size-sm);
+	--tooltip-line-height: var(--line-height-sm);
+	--tooltip-border-radius: var(--radius-sm);
+	--tooltip-max-width: 300px;
+	--tooltip-offset: -4px;
+	--tooltip-transition: var(--transition-fast);
+
+	/* ========== Alert（Bootstrap準拠） ========== */
+	--alert-primary-bg: #cfe2ff;
+	--alert-primary-text: #084298;
+	--alert-primary-border: #b6d4fe;
+
+	--alert-success-bg: #d1e7dd;
+	--alert-success-text: #0f5132;
+	--alert-success-border: #badbcc;
+
+	--alert-warning-bg: #fff3cd;
+	--alert-warning-text: #664d03;
+	--alert-warning-border: #ffecb5;
+
+	--alert-danger-bg: #f8d7da;
+	--alert-danger-text: #842029;
+	--alert-danger-border: #f5c2c7;
+
+	--alert-info-bg: #cff4fc;
+	--alert-info-text: #055160;
+	--alert-info-border: #b6effb;
+
+	--alert-light-bg: #fefefe;
+	--alert-light-text: #636464;
+	--alert-light-border: #fdfdfe;
+
+	--alert-dark-bg: #d3d3d4;
+	--alert-dark-text: #141619;
+	--alert-dark-border: #bcbebf;
+
+	/* ========== Offcanvas ========== */
+	--offcanvas-width: 250px;                    /* 幅 */
+	--offcanvas-bg-admin: var(--color-success);  /* 管理者用背景 */
+	--offcanvas-bg-user: var(--color-dark);      /* ユーザー用背景 */
+	--offcanvas-text-color: var(--color-light);  /* テキスト色 */
+	--offcanvas-header-font-size: var(--font-size-base);
+	--offcanvas-header-font-weight: var(--font-weight-medium);
+	--offcanvas-close-size: var(--font-size-xl);
+	--offcanvas-close-opacity: var(--opacity-75);
+	--offcanvas-close-opacity-hover: var(--opacity-100);
+	--offcanvas-backdrop-bg: rgba(0, 0, 0, var(--opacity-50));
+	--offcanvas-link-hover-opacity: var(--opacity-90);
+
+	/* ========== Navbar ========== */
+	--navbar-height: 4.5rem;                /* 高さ（spacer相当） */
+	--navbar-padding-y: var(--spacer-2);    /* 上下パディング */
+	--navbar-padding-x: var(--spacer-4);    /* 左右パディング */
+	--navbar-bg-user: var(--color-dark);    /* ユーザー用背景色 */
+	--navbar-bg-admin: var(--color-success);/* 管理者用背景色 */
+	--navbar-color: var(--color-light);     /* テキスト色 */
+	--navbar-shadow: var(--shadow-sm);      /* 影 */
+	--navbar-zindex: var(--zindex-navbar);  /* z-index基準 */
+	--navbar-toggler-radius: var(--radius); /* 角丸 */
+	--navbar-toggler-padding-y: var(--btn-padding-y);
+	--navbar-toggler-padding-x: var(--btn-padding-x);
+	--navbar-toggler-hover-user: var(--color-secondary-hover);
+	--navbar-toggler-hover-admin: var(--color-success-hover);
+	--navbar-font-size: var(--font-size-lg);
+	--navbar-font-size-mobile: var(--font-size-base);
+	--navbar-font-weight: var(--font-weight-medium);
+	--navbar-letter-spacing: var(--letter-spacing-normal);
+
+	/* ========== Accordion ========== */
+	--accordion-border-color: var(--border-color);
+	--accordion-border-radius: var(--radius);
+	--accordion-bg: var(--color-light);
+	--accordion-header-bg: var(--color-bg);
+	--accordion-header-bg-hover: var(--color-muted);
+	--accordion-header-color-hover: var(--color-light);
+	--accordion-transition: var(--transition-base);
+	--accordion-font-weight: var(--font-weight-medium);
+	--accordion-body-bg: var(--color-light);
+	--accordion-body-padding: var(--spacer-3);
+	--accordion-icon-rotate: -180deg;
+	--accordion-max-height: var(--max-width-md);
+
+	/* ========== ListGroup ========== */
+	--list-group-max-width: 700px;
+
+	/* ========== Dropdown ========== */
+	--dropdown-min-width: 10rem;
+	--dropdown-padding-x: var(--spacer-3);
+	--dropdown-padding-y: var(--spacer-2);
+	--dropdown-border-color: var(--border-color);
+	--dropdown-border-radius: var(--radius);
+	--dropdown-bg: var(--color-light);
+	--dropdown-shadow: var(--shadow);
+	--dropdown-font-size: var(--font-size-sm);
+
+	/* Dropdown（Light） */
+	--dropdown-link-color: var(--color-text);
+	--dropdown-link-hover-color: var(--color-secondary);
+	--dropdown-link-hover-bg: var(--color-light-hover);
+	--dropdown-link-active-color: var(--color-light);
+	--dropdown-link-active-bg: var(--color-primary);
+
+	/* Dropdown（Dark） */
+	--dropdown-dark-bg: var(--color-dark);
+	--dropdown-dark-link-color: var(--color-light);
+	--dropdown-dark-link-hover-color: var(--color-light);
+	--dropdown-dark-link-hover-bg: var(--color-dark-hover);
+
+	--dropdown-transition: var(--transition-fast);
+	--dropdown-zindex: var(--zindex-dropdown);
+	
+
+	/* ========== Footer / Link / Container（補助） ========== */
+	--footer-bg: var(--color-light);
+	--footer-color: var(--color-muted);
+	--footer-border-color: var(--border-color);
+	--footer-padding-y: var(--spacer-5);
+	--footer-padding-x: var(--spacer-4);
+	--footer-gap: var(--spacer-3);
+
+	--link-color: var(--color-primary);
+	--link-hover-color: var(--color-primary-hover);
+	--link-decoration: underline;
+	--link-decoration-hover: none;
+
+	/* container 系：左右Padding と最大幅（@mediaで上書き） */
+	--container-padding-x: var(--spacer-4);
+	--container-max: 100vw;
+}
+
+/* ========== Breakpoints：container 最大幅上書き（Bootstrap準拠） ========== */
+@media (min-width: 576px){ :root{ --container-max: 540px; } }
+@media (min-width: 768px){ :root{ --container-max: 720px; } }
+@media (min-width: 992px){ :root{ --container-max: 960px; } }
+@media (min-width: 1200px){ :root{ --container-max: 1140px; } }
+@media (min-width: 1400px){ :root{ --container-max: 1320px; } }
+
+/* ========== Dark Theme：テーマ上書き（class切替） ========== */
+.dark-theme{
+	--footer-bg: var(--color-dark);
+	--footer-color: var(--color-light);
+	--footer-border-color: var(--border-color-dark);
+	--link-color: var(--color-info);
+	--link-hover-color: var(--color-info-hover);
+}

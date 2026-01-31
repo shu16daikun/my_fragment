@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Table', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/table.css}">
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: table] START -->
+		<div class="my-table">
+			<table>
+				<thead>
+					<tr>
+						<th>列1</th>
+						<th>列2</th>
+						<th>列3</th>
+						<th>列4</th>
+						<th>列5</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Mark</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+					</tr>
+					<tr>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+					</tr>
+					<tr>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+						<td>Jacob</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- [fragment: table] END -->
+	</body>
+	<!-- [body] END -->
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<!-- [fragment: common::test-header] START — 共通ヘッダ。第1引数=画面名, 第2引数=このページ固有の <head> 追記 (::extraHead) -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Card', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START — ページ固有のCSS/JS -->
+		<th:block th:fragment="extraHead">
+			<!-- 自作個別css（カード本体 + ボタン） -->
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/card.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<!-- 自作個別js（現時点なし） -->
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [fragment: common::test-header] END -->
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [main] START -->
+		<!-- [fragment: card] START — 1枚の情報カード（header/body/footer 構造） -->
+		<div class="my-card">
+			<!-- 画像（オプション） -->
+			<img src="/psfm/img/png/study.png" alt="sample" class="my-card-img-top">
+
+			<!-- header: タイトルと操作 -->
+			<div class="my-card-header">
+				<span class="my-card-title">カードタイトル</span>
+				<button class="my-btn-secondary">編集</button>
+			</div>
+
+			<!-- body: 本文 -->
+			<div class="my-card-body">
+				<p>ここに本文が入ります。テキスト、ボタン、リストなど自由に配置可能です。</p>
+			</div>
+
+			<!-- footer: 補足情報 -->
+			<div class="my-card-footer">更新日: 2025-10-04</div>
+		</div>
+		<!-- [fragment: card] END -->
+		<!-- [main] END -->
+	</body>
+	<!-- [body] END -->
+</html>

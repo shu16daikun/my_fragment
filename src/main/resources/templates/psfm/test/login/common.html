@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:fragment="login-header(title, extraHead)">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title th:text="${title}">login</title>
+		<!-- 画面アイコン -->
+		<link rel="icon" th:href="@{/img/png/login.png}">
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    	<!-- 自作共通CSS -->
+    	<link rel="stylesheet" media="all" th:href="@{/css/common/common.css}">
+    	<link rel="stylesheet" media="all" th:href="@{/css/common/var.css}">
+    	<!-- ここに「置換用の挿入口」を用意 -->
+  		<th:block th:replace="${extraHead}"></th:block>
+	</head>
+	<body>
+	</body>
+</html>

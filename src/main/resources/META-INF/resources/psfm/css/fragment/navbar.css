@@ -1,0 +1,111 @@
+/* ----------------------------------------------------------------
+   navbar.css（ナビゲーションバー）
+   目的：
+    - 画面上部に固定されるナビバー（ユーザー版/管理者版）を提供。
+    - 下の本文は .navbar-spacer で高さ分の余白を確保。
+
+   DOM前提（例）：
+    <header class="my-navbar-user">   <!-- or .my-navbar-admin -->
+      <nav>
+        <div class="my-container-fluid">
+          <a class="my-title" href="/">Site</a>
+          <button class="my-navbar-toggler" aria-label="開閉">
+            <span class="my-navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <div class="navbar-spacer"></div> <!-- 本文の頭出し用余白 -->
+
+   依存トークン（var.css）：
+    - 高さ/余白：--navbar-height, --navbar-padding-y/x
+    - 色：--navbar-bg-user/admin, --navbar-color
+    - 影/角：--navbar-shadow, --navbar-toggler-radius
+    - 文字：--navbar-font-size, --navbar-font-size-mobile, --navbar-font-weight, --navbar-letter-spacing
+    - 速度：--transition-fast
+------------------------------------------------------------------*/
+
+/* = 共通（固定配置） =========================================== */
+.my-navbar-user nav,
+.my-navbar-admin nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--navbar-height);
+	z-index: var(--navbar-zindex);
+	box-shadow: var(--navbar-shadow);
+	color: var(--navbar-color);
+	padding: 0; /* nav自体は余白なし（内側の .my-container-fluid で持つ） */
+	box-sizing: border-box;
+}
+
+/* = カラーバリエーション ======================================= */
+.my-navbar-user nav {
+	background-color: var(--navbar-bg-user);
+	color: var(--navbar-color);
+}
+.my-navbar-admin nav {
+	background-color: var(--navbar-bg-admin);
+	color: var(--navbar-color);
+}
+
+/* = タイトル（左側） ============================================ */
+.my-title {
+	font-size: var(--navbar-font-size);
+	font-weight: var(--navbar-font-weight);
+	color: inherit;
+	text-decoration: none;
+	letter-spacing: var(--navbar-letter-spacing);
+}
+
+/* = トグルボタン（右側） ======================================= */
+.my-navbar-toggler {
+	all: unset;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--navbar-toggler-padding-y) var(--navbar-toggler-padding-x);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	background-color: transparent;
+	border: var(--border-width) var(--border-style) transparent;
+	border-radius: var(--navbar-toggler-radius);
+	cursor: pointer;
+	margin-left: auto;
+	transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* アイコン */
+.my-navbar-toggler-icon {
+	width: 1.5em;
+	height: 1.5em;
+	fill: currentColor;
+	display: block;
+}
+
+/* hover効果 */
+.my-navbar-user .my-navbar-toggler:hover {
+	background-color: var(--navbar-toggler-hover-user);
+}
+.my-navbar-admin .my-navbar-toggler:hover {
+	background-color: var(--navbar-toggler-hover-admin);
+}
+
+/* = Spacer（本文の頭出し用） =================================== */
+.navbar-spacer {
+	height: var(--navbar-height);
+}
+
+/* = Responsive（モバイル時の文字・左右余白） =================== */
+@media (max-width: 768px) {
+	.my-container-fluid {
+		padding: var(--navbar-padding-y);
+	}
+	.my-title {
+		font-size: var(--navbar-font-size-mobile);
+	}
+}

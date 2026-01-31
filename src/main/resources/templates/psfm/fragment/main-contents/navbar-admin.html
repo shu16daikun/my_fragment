@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Navbar Admin', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/navbar.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/offcanvas.css}">
+			<script type="module" th:src="@{/psfm/js/main-contents/test/navbar.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- 共通アイコン読み込み（<use>参照先） -->
+		<div th:replace="~{psfm/fragment/svg/icons :: svg-icons}"></div>
+
+		<!-- [fragment: navbar-admin] START -->
+		<div class="my-navbar-admin">
+			<nav>
+				<div class="my-container-fluid">
+					<a class="my-title" href="/test/buttons">Offcanvas-Navbar-Admin</a>
+
+					<!-- トグルボタン -->
+					<button class="my-navbar-toggler" aria-label="メニューを開く"></button>
+
+					<!-- Offcanvas 容器 -->
+					<div class="my-offcanvas-admin">
+						<div class="my-offcanvas">
+							<div class="my-offcanvas-header">
+								<span>メニュー</span>
+								<button class="my-offcanvas-close" aria-label="閉じる">&times;</button>
+							</div>
+							<div class="my-offcanvas-body">
+								<ul>
+									<li data-text="test/buttons" data-href="/test/buttons"></li>
+									<li data-text="test/navbar-user" data-href="/test/navbarUser"></li>
+									<li data-text="test/navbar-admin" data-href="/test/navbarAdmin"></li>
+									<li data-text="test/accordion" data-href="/test/accordion"></li>
+									<li data-text="test/card" data-href="/test/card"></li>
+									<li data-text="ログアウト" data-href="/logout"></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Offcanvas 容器 -->
+				</div>
+			</nav>
+		</div>
+		<!-- [fragment: navbar-admin] END -->
+
+		<!-- 固定ナビ分の余白（必要に応じて） -->
+		<div class="navbar-spacer" aria-hidden="true"></div>
+	</body>
+	<!-- [body] END -->
+</html>

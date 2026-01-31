@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Pagination', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/pagination.css}">
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: pagination] START -->
+		<nav class="my-pagination" aria-label="ページネーション">
+			<ul>
+				<li><a href="#" class="my-page-prev">前へ</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#" class="active" aria-current="page">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#" class="my-page-next">次へ</a></li>
+			</ul>
+		</nav>
+		<!-- [fragment: pagination] END -->
+	</body>
+	<!-- [body] END -->
+</html>

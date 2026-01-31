@@ -1,0 +1,74 @@
+/* ----------------------------------------------------------------
+   footer.css（フッター）
+   目的：
+    - ページ下部に置く共通フッター（背景/枠/リンク色をトークンで一元管理）。
+
+   DOM前提（例）：
+    <footer class="my-footer">
+      <div class="my-container">
+        <div class="my-footer-inner">
+          <p class="my-footer-text">...</p>
+          <div class="my-footer-actions"><a href="#">Back to top</a></div>
+        </div>
+      </div>
+    </footer>
+
+   依存トークン（var.css）：
+    - 背景/文字/枠：--footer-bg, --footer-color, --footer-border-color
+    - 余白：--footer-padding-y/x, --footer-gap, --spacer-5
+    - リンク：--link-color-secondary, --link-color-secondary-hover
+------------------------------------------------------------------*/
+
+/* = Wrapper（背景/枠/余白） ==================================== */
+.my-footer{
+	background: var(--footer-bg);
+	color: var(--footer-color);
+	border-top: var(--border-width) var(--border-style) var(--footer-border-color);
+	margin-top: var(--spacer-5);
+	flex-shrink: 0; /* フッター潰れ防止（bodyがflex縦積み前提） */
+}
+
+/* = Inner（横並び→狭い時は折返し） =========================== */
+.my-footer .my-footer-inner{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--footer-gap);
+	flex-wrap: wrap; /* 狭い時は折り返し */
+	/* 横のパディングは .my-container に任せる。上下だけ指定 */
+	padding: var(--footer-padding-y) 0;
+}
+
+/* 左右の塊（Albumの文言＆Back to top） */
+.my-footer .my-footer-text{
+	margin: 0;
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-base);
+}
+
+.my-footer .my-footer-actions{
+	margin-left: auto; /* 右寄せ */
+	font-size: var(--font-size-sm);
+}
+
+/* = Links ======================================================= */
+.my-footer a{
+	color: var(--link-color-secondary);
+	text-decoration: none;
+	transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+.my-footer a:hover{
+	color: var(--link-color-secondary-hover);
+	text-decoration: underline;
+}
+
+/* = Mobile（中央寄せ） ========================================= */
+@media (max-width: 575.98px){
+	.my-footer .my-footer-inner{
+		justify-content: center;
+		text-align: center;
+	}
+	.my-footer .my-footer-actions{
+		margin-left: 0;
+	}
+}

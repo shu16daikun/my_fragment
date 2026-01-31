@@ -1,0 +1,48 @@
+# EditorConfig for 黒本プロジェクト
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = tab
+indent_size = 4
+max_line_length = 100
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+[*.java]
+indent_style = tab
+indent_size = 4
+
+[*.xml]
+indent_style = tab
+indent_size = 4
+
+[*.{html,htm}]
+indent_style = tab
+indent_size = 4
+
+[*.{css,scss}]
+indent_style = tab
+indent_size = 4
+
+[*.{js,ts,mjs,cjs,jsx,tsx}]
+indent_style = tab
+indent_size = 4
+
+[*.{json,jsonc}]
+indent_style = tab
+indent_size = 4
+
+[*.properties]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2

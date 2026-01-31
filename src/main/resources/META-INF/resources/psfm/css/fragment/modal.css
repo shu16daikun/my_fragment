@@ -1,0 +1,165 @@
+/* ----------------------------------------------------------------
+   modal.css（モーダル）
+   目的：
+    - 背景フェード＋中央ダイアログのシンプルなモーダルを提供。
+    - .open を親に付与すると表示、.fade-out でフェード閉じ（任意）。
+
+   DOM前提（例）：
+    <div class="my-modal">        <!-- or .my-modal-dark -->
+      <div class="my-modal-contents" role="dialog" aria-modal="true" aria-labelledby="m-title">
+        <div class="my-modal-dialog">
+          <div class="my-modal-content">
+            <header class="my-modal-header">
+              <h2 id="m-title" class="my-modal-title">タイトル</h2>
+              <!-- ×ボタン等 -->
+            </header>
+            <div class="my-modal-body">本文...</div>
+            <footer class="my-modal-footer">フッター...</footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   ふるまい：
+    - .my-modal.open        → 表示（fadeIn）
+    - .my-modal.fade-out    → 閉じアニメ（fadeOut、pointer-events: none）
+
+   依存トークン（var.css）：
+    - レイヤ：--zindex-modal, --zindex-modal-dialog
+    - サイズ：--max-width-md, --height-full
+    - 余白/角/影：--spacer-*, --radius, --shadow-lg
+    - 枠/色：--border-*, --color-light/dark/bg/text, --border-color-dark
+    - 不透明度/速度：--opacity-*, --transition-base / --transition-fast
+------------------------------------------------------------------*/
+
+/* = Root（ベース） ============================================= */
+.my-modal,
+.my-modal-dark {
+	position: relative;
+}
+
+/* = Backdrop（背景フェード） =================================== */
+.my-modal .my-modal-contents,
+.my-modal-dark .my-modal-contents {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: var(--zindex-modal);
+	width: 100%;
+	height: var(--height-full);
+	box-sizing: border-box;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, var(--opacity-50)); /* 半透明の黒背景 */
+	transition: opacity var(--transition-base);
+}
+
+/* = 開いているとき ============================================== */
+.my-modal.open .my-modal-contents,
+.my-modal-dark.open .my-modal-contents {
+	display: block;
+	animation: fadeIn var(--transition-base);
+}
+
+/* = Dialog（ダイアログボックス） =============================== */
+.my-modal-dialog {
+	position: relative;
+	margin: var(--spacer-4) auto;
+	max-width: var(--max-width-md);
+	box-sizing: border-box;
+	pointer-events: auto;
+	z-index: var(--zindex-modal-dialog);
+}
+
+/* = Content（中身） ============================================= */
+.my-modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-light);
+	border-radius: var(--radius);
+	outline: none;
+	box-shadow: var(--shadow-lg);
+	border: var(--border-width) var(--border-style) var(--border-color);
+	transition: all var(--transition-fast);
+}
+
+/* ダークモード */
+.my-modal-dark .my-modal-content {
+	background-color: var(--color-dark);
+	color: var(--color-light);
+	border-color: var(--border-color-dark);
+}
+
+/* = Header ====================================================== */
+.my-modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--spacer-3);
+	border-bottom: var(--border-width) var(--border-style) var(--border-color);
+}
+.my-modal-dark .my-modal-header {
+	border-color: var(--border-color-dark);
+}
+
+/* タイトル */
+.my-modal-header .my-modal-title {
+	margin: 0;
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-medium);
+	letter-spacing: var(--letter-spacing-normal);
+}
+
+/* = Body ======================================================== */
+.my-modal-body {
+	position: relative;
+	flex: 1 1 auto;
+	padding: var(--spacer-3);
+	overflow-y: auto;
+	max-height: 60vh;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	white-space: normal;
+	line-height: var(--line-height-base);
+	color: var(--color-text);
+	background-color: var(--color-light);
+}
+/* ダークモード本文 */
+.my-modal-dark .my-modal-body {
+	background-color: var(--color-dark);
+	color: var(--color-light);
+}
+
+/* = Footer ====================================================== */
+.my-modal-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--spacer-2);
+	padding: var(--spacer-2) var(--spacer-3);
+	border-top: var(--border-width) var(--border-style) var(--border-color);
+	background-color: var(--color-bg);
+}
+.my-modal-dark .my-modal-footer {
+	border-color: var(--border-color-dark);
+	background-color: var(--color-dark-hover);
+}
+
+/* = Animations ================================================== */
+@keyframes fadeIn {
+	from { opacity: var(--opacity-0); }
+	to   { opacity: var(--opacity-100); }
+}
+
+/* フェードアウト（任意拡張） */
+@keyframes fadeOut {
+	from { opacity: var(--opacity-100); }
+	to   { opacity: var(--opacity-0); }
+}
+
+/* 閉じる時の演出 */
+.my-modal.fade-out .my-modal-contents {
+	animation: fadeOut var(--transition-base);
+	opacity: var(--opacity-0);
+	pointer-events: none;
+}

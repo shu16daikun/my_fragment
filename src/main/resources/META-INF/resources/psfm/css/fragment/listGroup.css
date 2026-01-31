@@ -1,0 +1,67 @@
+/* ----------------------------------------------------------------
+   listGroup.css（リストグループ）
+   目的：
+    - シンプルな番号なしリストをカード風に整形し、リンク/アクティブ状態も表現。
+
+   DOM前提（例）：
+    <div class="my-list-group">
+      <ol>
+        <li><a href="#">項目A</a></li>
+        <li class="active"><a href="#">項目B</a></li>
+        <li>テキストだけの項目</li>
+      </ol>
+    </div>
+
+   依存トークン（var.css）：
+    - 枠/角：--border-width, --border-style, --border-color, --radius
+    - 色/背景：--color-light, --color-secondary, --color-secondary-hover
+    - 余白/文字：--spacer-*, --font-size-base
+    - 最大幅：--list-group-max-width
+------------------------------------------------------------------*/
+
+/* = Wrapper（全体） ============================================= */
+.my-list-group ol {
+	list-style: none; /* デフォルト番号を消す */
+	margin: 0;
+	padding: 0;
+	border: var(--border-width) var(--border-style) var(--border-color);
+	border-radius: var(--radius);
+	overflow: hidden; /* 子のはみ出し防止 */
+	max-width: var(--list-group-max-width);
+	box-sizing: border-box;
+}
+
+/* = Item（各行） =============================================== */
+.my-list-group ol li {
+	padding: var(--spacer-2) var(--spacer-3);
+	border-bottom: var(--border-width) var(--border-style) var(--border-color);
+	background-color: var(--color-light);
+	font-size: var(--font-size-base);
+}
+
+/* 最後のliはボーダーを消す */
+.my-list-group ol li:last-child {
+	border-bottom: none;
+}
+
+/* = Link（行内リンク） ========================================= */
+.my-list-group ol li > a {
+	display: block;              /* クリック範囲を広げる */
+	color: var(--color-secondary);
+	text-decoration: none;
+	transition: color var(--transition-fast), text-decoration var(--transition-fast);
+}
+
+/* hover時にリンクを強調 */
+.my-list-group ol li > a:hover {
+	color: var(--color-secondary-hover);
+	text-decoration: underline;
+}
+
+/* = Active（強調状態） ========================================= */
+.my-list-group ol li.active,
+.my-list-group ol li.active > a {
+	background-color: var(--color-primary);
+	color: #fff;
+	font-weight: bold;
+}

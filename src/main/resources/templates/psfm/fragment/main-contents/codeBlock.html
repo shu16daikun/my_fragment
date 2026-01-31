@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<!-- [fragment: common::test-header] START — 共通ヘッダ -->
+	<head th:replace="~{psfm/fragment/common :: test-header('codeBlock', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START — ページ固有のCSS/JS -->
+		<th:block th:fragment="extraHead">
+			<!-- 自作個別css（コードブロック + 付帯UI） -->
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/codeBlock.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/card.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<!-- エントリJS：ボタンにコピー処理を配線 -->
+			<script type="module" th:src="@{/psfm/js/main-contents/test/codeBlock.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [fragment: common::test-header] END -->
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [main] START -->
+		<!-- [fragment: code-block] START — タイトル + コピー可能な pre/code -->
+		<div class="my-code-block">
+			<div class="my-code-block-header">
+				<div class="my-code-block-title">Main.java</div>
+				<!-- data-copy/COPIED はJSが文言を適用 -->
+				<button class="my-btn-secondary" data-copy="Copy" data-copied="Copied!"></button>
+			</div>
+
+			<div class="my-code-block-body">
+				<pre><code>
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello");
+    }
+}
+				</code></pre>
+			</div>
+		</div>
+		<!-- [fragment: code-block] END -->
+		<!-- [main] END -->
+	</body>
+	<!-- [body] END -->
+</html>

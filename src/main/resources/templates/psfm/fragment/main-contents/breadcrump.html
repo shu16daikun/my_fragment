@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<!-- [fragment: common::test-header] START — 画面共通ヘッダ。第1引数=ページタイトル, 第2引数=このページ固有のhead追記 (::extraHead) -->
+	<!-- 表示名が 'Alert' になっていたので 'Breadcrump' に修正（画面タイトル整合のため） -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Breadcrump', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START — このページ固有のCSS/JS -->
+		<th:block th:fragment="extraHead">
+			<!-- 自作個別css -->
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/breadcrump.css}">
+			<!-- 自作個別js（現時点なし） -->
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [fragment: common::test-header] END -->
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [main] START -->
+		<!-- [fragment: breadcrump] START — パンくず（nav > ol > li 構造） -->
+		<div class="my-breadcrump-simple">
+			<!-- [section: nav] START -->
+			<nav aria-label="breadcrumb">
+				<!-- [section: list] START — ルート>親>現在地 -->
+				<ol>
+					<li><a href="#">ホーム</a></li>
+					<li><a href="#">親ページ</a></li>
+					<li>アクティブ</li>
+				</ol>
+				<!-- [section: list] END -->
+			</nav>
+			<!-- [section: nav] END -->
+		</div>
+		<!-- [fragment: breadcrump] END -->
+		<!-- [main] END -->
+	</body>
+	<!-- [body] END -->
+</html>

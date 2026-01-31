@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<!-- [fragment: common::test-header] START — 共通ヘッダ -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Dropdown', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START — ページ固有のCSS/JS -->
+		<th:block th:fragment="extraHead">
+			<!-- 自作個別css（ドロップダウン + ボタン） -->
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/dropdown.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<!-- エントリJS：クリック開閉・アクセシビリティ属性を配線 -->
+			<!-- ※ 元は codeBlock.js を参照していたため修正 -->
+			<script type="module" th:src="@{/psfm/js/main-contents/test/dropdown.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [fragment: common::test-header] END -->
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [main] START -->
+		<!-- [fragment: dropdown(light)] START -->
+		<div class="my-dropdown">
+			<button class="my-btn-primary">Dropdown</button>
+			<ul>
+				<li>選択肢1</li>
+				<li><a th:href="@{/test/buttons}">/test/buttons</a></li>
+				<li><a th:href="@{/test/navbar}">/test/navbar</a></li>
+				<li><a th:href="@{/test/accordion}">/test/accordion</a></li>
+				<li><a th:href="@{/test/alert}">/test/alert</a></li>
+			</ul>
+		</div>
+		<!-- [fragment: dropdown(light)] END -->
+
+		<!-- [fragment: dropdown(dark)] START -->
+		<div class="my-dropdown-dark">
+			<button class="my-btn-dark">Dropdown</button>
+			<ul>
+				<li>選択肢1</li>
+				<li><a th:href="@{/test/buttons}">/test/buttons</a></li>
+				<li><a th:href="@{/test/navbar}">/test/navbar</a></li>
+				<li><a th:href="@{/test/accordion}">/test/accordion</a></li>
+				<li><a th:href="@{/test/alert}">/test/alert</a></li>
+			</ul>
+		</div>
+		<!-- [fragment: dropdown(dark)] END -->
+		<!-- [main] END -->
+	</body>
+	<!-- [body] END -->
+</html>

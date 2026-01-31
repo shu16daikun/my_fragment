@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<!-- [fragment: common::test-header] START — 画面共通ヘッダ（個別CSS/JSは extraHead へ） -->
+	<head th:replace="~{psfm/fragment/common :: test-header('BtnGroupVertical', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<!-- 自作個別css -->
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/btnGroupVertical.css}">
+			<!-- 自作個別js：id/for を自動配線。既存があれば尊重、未設定のみ補完 -->
+			<script type="module" th:src="@{/psfm/js/main-contents/test/btnGroupVertical.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [fragment: common::test-header] END -->
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [main] START -->
+
+		<!-- [fragment: btn-group vertical] START — 縦積みチェックグループ
+		     メモ：inputにid, labelにforが未設定でもJS(wireBtnGroups)が安全に付与する -->
+		<div class="my-btn-group">
+			<input type="checkbox" name="q1" value="A">
+			<label>
+				選択肢ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>
+				選択肢ACCXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>
+			</label>
+
+			<input type="checkbox" name="q1" value="B">
+			<label>
+				選択肢BCXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>
+				選択肢CBCXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			</label>
+
+			<input type="checkbox" name="q1" value="C">
+			<label>
+				選択肢CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>
+				選択肢CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			</label>
+		</div>
+		<!-- [fragment: btn-group vertical] END -->
+
+		<!-- [fragment: btn-group horizontal（Thymeleaf例）] START — サーバ側レンダの参考。画面非表示のためコメントアウト維持 -->
+		<!--
+		<div class="my-btn-group-horizontal has-unknown" th:with="name='q1'">
+			<div class="my-btn-option" th:each="opt, iStat : ${options}">
+				<input
+					type="checkbox"
+					th:id="${name + '_' + iStat.index}"
+					th:name="${name}"
+					th:value="${opt.value}">
+				<label th:for="${name + '_' + iStat.index}">
+					<span th:text="${opt.text}">選択肢テキスト</span>
+				</label>
+			</div>
+
+			<div class="my-btn-option is-unknown">
+				<input
+					type="checkbox"
+					th:id="${name + '_unknown'}"
+					th:name="${name}"
+					-- th:name="${name + 'Unknown'}"  個別フラグにしたい場合はこちら（テンプレ修正時に切替）
+					value="UNKNOWN">
+				<label th:for="${name + '_unknown'}">わからない</label>
+			</div>
+		</div>
+		-->
+		<!-- [fragment: btn-group horizontal（Thymeleaf例）] END -->
+
+		<!-- [fragment: btn-group horizontal（静的デモ）] START — 横並び+「わからない」 -->
+		<div class="my-btn-group-horizontal has-unknown" th:with="name='q1'">
+			<div class="my-btn-option-title">問１</div>
+
+			<div class="my-btn-option">
+				<input type="checkbox" id="q1_op1" name="form_1" value="A">
+				<label for="q1_op1">A</label>
+
+				<input type="checkbox" id="q1_op2" name="form_1" value="B">
+				<label for="q1_op2">B</label>
+
+				<input type="checkbox" id="q1_op3" name="form_1" value="C">
+				<label for="q1_op3">C</label>
+
+				<input type="checkbox" id="q1_op4" name="form_1" value="D">
+				<label for="q1_op4">D</label>
+			</div>
+
+			<div class="my-btn-option is-unknown">
+				<input type="checkbox" id="q1_unknown" name="form_1" value="UNKNOWN">
+				<label for="q1_unknown">わからない</label>
+			</div>
+		</div>
+		<!-- [fragment: btn-group horizontal（静的デモ）] END -->
+
+		<!-- [main] END -->
+	</body>
+	<!-- [body] END -->
+</html>

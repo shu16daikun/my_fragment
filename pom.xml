@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.7</version>
+    <relativePath></relativePath>
+  </parent>
+
+  <groupId>com.my_fragment</groupId>
+  <artifactId>my_fragment</artifactId>
+  <version>0.1.9</version>
+  <name>my_fragment</name>
+  <description>Thymeleaf fragments (resources-only library)</description>
+
+  <properties>
+    <java.version>21</java.version>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Spotless -->
+    <spotless.version>2.44.0</spotless.version>
+  </properties>
+
+  <!-- resources-only：配布にランタイム依存は持たせない（テスト時のみSpringを使う想定） -->
+  <dependencies>
+    <!-- ===== [test-only Spring stack] START ===== -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.thymeleaf.extras</groupId>
+      <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- ===== [test-only Spring stack] END ===== -->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Boot の再パッケージを完全スキップ（fat-jar化しない） -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <!-- JAR から .class を除外＝“resources-only” を保証 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/*.class</exclude>
+            <exclude>**/*.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <!-- Java compile（main/java が空でもOK） -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>${maven.compiler.release}</release>
+          <parameters>true</parameters>
+        </configuration>
+      </plugin>
+
+      <!-- Spotless：Eclipse JDT フォーマッタに切替 -->
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${spotless.version}</version>
+        <configuration>
+          <lineEndings>UNIX</lineEndings>
+          <encoding>UTF-8</encoding>
+
+          <java>
+            <eclipse>
+              <file>${basedir}/.eclipse/formatter/eclipse-java-formatter.xml</file>
+            </eclipse>
+            <removeUnusedImports></removeUnusedImports>
+            <includes>
+              <include>src/main/java/**/*.java</include>
+              <include>src/test/java/**/*.java</include>
+            </includes>
+          </java>
+
+          <formats>
+            <format>
+              <includes>
+                <include>src/**/*.xml</include>
+              </includes>
+              <eclipseWtp>
+                <type>XML</type>
+              </eclipseWtp>
+            </format>
+          </formats>
+
+          <pom>
+            <sortPom></sortPom>
+          </pom>
+        </configuration>
+        <executions>
+          <execution>
+            <id>spotless-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Optional：Web資産の Prettier を使う時だけ有効化 -->
+  <profiles>
+    <profile>
+      <id>with-prettier</id>
+      <properties>
+        <prettier.config.file>${project.basedir}/.prettierrc.json</prettier.config.file>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.diffplug.spotless</groupId>
+            <artifactId>spotless-maven-plugin</artifactId>
+            <version>${spotless.version}</version>
+            <configuration>
+              <formats>
+                <format>
+                  <includes>
+                    <include>src/**/*.js</include>
+                    <include>src/**/*.ts</include>
+                    <include>src/**/*.css</include>
+                    <include>src/**/*.scss</include>
+                    <include>src/**/*.html</include>
+                    <include>src/**/*.json</include>
+                  </includes>
+                  <prettier>
+                    <configFile>${prettier.config.file}</configFile>
+                  </prettier>
+                </format>
+              </formats>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

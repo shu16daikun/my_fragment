@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja"
+	xmlns:th="http://www.thymeleaf.org">
+	<!--
+		[psfm/fragment/common] 役割メモ（画面に見せるコメント）
+
+		- 用途　　: <head> を置換する Thymeleaf フラグメント。
+		- 参照例　: 
+			<head th:replace="~{psfm/fragment/common :: test-header('PageTitle', ~{::extraHead})}">
+				<th:block th:fragment="extraHead">
+					ここに記述
+				</th:block>
+			</head>
+		- DOM契約 :
+			* 引数 title     : <title> に反映
+			* 引数 extraHead : 呼び出し側から差し込む追加 <link>/<script> 群
+		- 注意　　:
+			* このファイルは <head th:fragment=...> のみを提供。<body> は含めない。
+			* jQuery は共通JSより先に読み込む。
+			* CSSは「変数（var.css）→共通（common.css）」の順で読み込む。
+	-->
+	<!-- [fragment: test-header] START -->
+	<head th:fragment="test-header(title, extraHead)">
+		<!-- [header] START -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title th:text="${title}">Test</title>
+
+		<!-- ファビコン -->
+		<link rel="icon" th:href="@{/psfm/img/png/setting.png}">
+
+		<!-- ライブラリ（ログ専用コメント：CDN更新時は互換性検証を行う） -->
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+		<!-- 共通CSS（Tokens → Base の順） -->
+		<link rel="stylesheet" media="all" th:href="@{/psfm/css/common/var.css}">
+		<link rel="stylesheet" media="all" th:href="@{/psfm/css/common/common.css}">
+
+		<!-- 呼び出し側の拡張差し込み口 -->
+		<th:block th:replace="${extraHead}"></th:block>
+		<!-- [header] END -->
+	</head>
+	<!-- [fragment: test-header] END -->
+</html>

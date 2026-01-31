@@ -1,0 +1,106 @@
+/* ----------------------------------------------------------------
+   alert.css（アラート共通）
+   目的：
+    - 画面上部などに表示する通知/警告ブロックのスタイルを定義。
+    - バリアント（primary/success/warning/danger/info）で色セットを切替。
+
+   DOM前提：
+    <div class="my-alert my-alert-<variant> [is-hiding]">
+      <div class="my-alert-text">...</div>
+      <button class="my-alert-close" aria-label="閉じる">×</button>
+    </div>
+   - .is-hiding はJSで付与（フェードアウト用）
+   - リンクは currentColor を継承
+
+   依存変数（var.css）：
+    - 色：--alert-*-bg / --alert-*-text / --alert-*-border、--color-text, --color-bg
+    - 余白/影/角：--spacer-*, --shadow-sm, --radius
+    - アニメ：--transition-base
+    - 不透明度：--opacity-0/25/50/75/100（65は未定義のため fallback 0.65を使用）
+
+   注意：
+    - 閉じるボタンは外側の高さに依存しないフリー配置（flex末尾）。
+------------------------------------------------------------------*/
+
+/* = Base ======================================================== */
+.my-alert{
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: var(--spacer-2);
+	padding: var(--spacer-2) var(--spacer-3);
+	border: var(--border-width) solid transparent;
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-sm);
+	color: var(--color-text);
+	background: var(--color-bg);
+	transition: opacity var(--transition-base), transform var(--transition-base);
+	margin: var(--spacer-3) 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* = Text ======================================================== */
+.my-alert .my-alert-text{
+	flex: 1 1 auto;
+	box-sizing: border-box;
+}
+
+/* = Close Button =============================================== */
+.my-alert .my-alert-close{
+	appearance: none;
+	border: 0;
+	background: transparent;
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-xs);
+	cursor: pointer;
+	/* var(--opacity-65) が未定義でも動くよう fallback を同時指定 */
+	opacity: var(--opacity-65, 0.65);
+	transition: opacity var(--transition-base);
+}
+.my-alert .my-alert-close:hover{
+	opacity: var(--opacity-100, 1);
+}
+
+/* = Fade-out state（JS付与） =================================== */
+.my-alert.is-hiding{
+	opacity: var(--opacity-0, 0);
+	transform: translateY(-4px);
+}
+
+/* = Variants（背景は薄め、枠+テキストは濃色を流用） ============ */
+.my-alert-primary {
+	color: var(--alert-primary-text);
+	background: var(--alert-primary-bg);
+	border-color: var(--alert-primary-border);
+}
+.my-alert-success {
+	color: var(--alert-success-text);
+	background: var(--alert-success-bg);
+	border-color: var(--alert-success-border);
+}
+.my-alert-warning {
+	color: var(--alert-warning-text);
+	background: var(--alert-warning-bg);
+	border-color: var(--alert-warning-border);
+}
+.my-alert-danger {
+	color: var(--alert-danger-text);
+	background: var(--alert-danger-bg);
+	border-color: var(--alert-danger-border);
+}
+.my-alert-info {
+	color: var(--alert-info-text);
+	background: var(--alert-info-bg);
+	border-color: var(--alert-info-border);
+}
+
+/* = Links（任意） =============================================== */
+.my-alert a{
+	color: currentColor;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.my-alert a:hover{
+	text-decoration-thickness: 2px;
+}

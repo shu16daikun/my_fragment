@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Form', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/body.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/form.css}">
+			<script type="module" th:src="@{/psfm/js/main-contents/test/form.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body class="my-items-center-body">
+		<!-- [fragment: form-floating] START -->
+		<div class="my-form-input" data-text="ユーザー名">
+			<input type="text" required>
+		</div>
+		<div class="my-form-input" data-text="パスワード">
+			<input type="password" required>
+		</div>
+		<!-- [fragment: form-floating] END -->
+	</body>
+	<!-- [body] END -->
+</html>

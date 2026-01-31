@@ -1,0 +1,105 @@
+/* ----------------------------------------------------------------
+   pagination.css（ページネーション）
+   目的：
+    - シンプルな中央寄せページネーション。-1px の“重ね”で境界線を一体化。
+
+   DOM前提（例）：
+    <nav class="my-pagination" aria-label="ページ移動">
+      <ul>
+        <li><a class="my-page-prev" href="#">&laquo;</a></li>
+        <li><a href="#">1</a></li>
+        <li><a class="active" aria-current="page" href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a class="my-page-next" href="#">&raquo;</a></li>
+      </ul>
+    </nav>
+
+   依存トークン（var.css）：
+    - 余白/角：--pagination-padding-*, --pagination-margin-y, --radius
+    - 色/境界：--pagination-border-color, --pagination-hover-*, --pagination-active-*, --pagination-disabled-*
+    - 文字：--pagination-font-size, --line-height-base
+    - レイヤ：--zindex-pagination-active（未定義時は 3 にフォールバック）
+------------------------------------------------------------------*/
+
+/* === コンテナ ================================================== */
+.my-pagination ul {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-left: 0;
+	list-style: none;
+	margin: var(--pagination-margin-y) 0;
+}
+
+/* === 各ページリンク ============================================ */
+.my-pagination ul li a {
+	position: relative;
+	display: block;
+	padding: var(--pagination-padding-y) var(--pagination-padding-x);
+	font-size: var(--pagination-font-size);
+	color: var(--color-muted);
+	background-color: var(--color-light);
+	border: var(--border-width) var(--border-style) var(--pagination-border-color);
+	text-decoration: none;
+	transition: background-color var(--transition-fast), color var(--transition-fast);
+	margin-left: var(--pagination-gap); /* 隣のボタンと重ねてボーダーを統一（-1px想定） */
+	line-height: var(--line-height-base);
+	box-sizing: border-box;
+}
+/* 先頭のみ余白をなくす（全体の左右位置ズレ防止） */
+.my-pagination ul li:first-child a {
+	margin-left: 0;
+}
+
+/* === 最初と最後の角丸 ========================================== */
+.my-pagination ul li:first-child a {
+	border-top-left-radius: var(--radius);
+	border-bottom-left-radius: var(--radius);
+}
+.my-pagination ul li:last-child a {
+	border-top-right-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
+}
+
+/* === Hover ===================================================== */
+.my-pagination ul li a:hover {
+	background-color: var(--pagination-hover-bg);
+	color: var(--pagination-hover-color);
+	border-color: var(--pagination-hover-bg);
+	text-decoration: none;
+}
+
+/* === 前へ・次へ ================================================ */
+.my-pagination ul li a.my-page-prev,
+.my-pagination ul li a.my-page-next {
+	background-color: var(--color-dark);
+	color: var(--color-light);
+	border-color: var(--color-dark);
+}
+.my-pagination ul li a.my-page-prev:hover,
+.my-pagination ul li a.my-page-next:hover {
+	background-color: var(--color-dark-hover);
+	border-color: var(--color-dark-hover);
+}
+
+/* === Active（現在のページ） =================================== */
+.my-pagination ul li a.active {
+	z-index: var(--zindex-pagination-active, 3);
+	color: var(--pagination-active-color);
+	background-color: var(--pagination-active-bg);
+	border-color: var(--pagination-active-border);
+}
+.my-pagination ul li a.active:hover {
+	color: var(--pagination-active-color);
+	background-color: var(--pagination-active-hover-bg);
+	border-color: var(--pagination-active-hover-bg);
+}
+
+/* === Disabled（無効状態） ===================================== */
+.my-pagination ul li a.disabled {
+	color: var(--pagination-disabled-color);
+	pointer-events: none;
+	background-color: var(--pagination-disabled-bg);
+	border-color: var(--border-color);
+	opacity: var(--opacity-65, 0.65); /* 未定義でも動くようフォールバック */
+}

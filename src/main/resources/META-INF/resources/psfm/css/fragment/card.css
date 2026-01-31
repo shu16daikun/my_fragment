@@ -1,0 +1,112 @@
+/* ----------------------------------------------------------------
+   card.css（カードUI）
+   目的：
+    - 見出し/本文/フッター/サムネイル画像を備えた汎用カードを提供。
+    - ホバー時に“わずかな浮き”でインタラクションを表現。
+
+   DOM前提（例）：
+    <article class="my-card my-card-hover">
+      <img class="my-card-img-top" src="..." alt="">
+      <header class="my-card-header">
+        <h3 class="my-card-title">タイトル</h3>
+        <!-- 右側に操作アイコンなど -->
+      </header>
+      <div class="my-card-body">本文...</div>
+      <footer class="my-card-footer">補足...</footer>
+    </article>
+
+   依存変数（var.css）：
+    - 枠/角/影：--border-width, --border-style, --border-color, --radius, --shadow-*
+    - 色：--color-text, --color-bg, --color-light, --color-muted
+    - 余白/文字：--spacer-*, --font-size-*, --font-weight-*, --line-height-*
+    - アニメ：--transition-base（hover の transform / shadow）
+
+   注意：
+    - 末尾の .my-card-img-top { height:200px } は“固定高”の上書き意図。
+      可変高が必要ならユーティリティ化（例：.my-card-img-top--h200）を検討。
+------------------------------------------------------------------*/
+
+/* = 基本カード構造 ============================================= */
+.my-card {
+	position: relative;
+	display: flex;
+	flex-direction: column; /* header → body → footer 順 */
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	margin-bottom: var(--spacer-3);
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	border: var(--border-width) var(--border-style) var(--border-color);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-sm);
+	overflow: hidden; /* 丸角を画像・headerなどにも適用 */
+	transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+/* hover時のわずかな浮き上がり */
+.my-card:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--shadow);
+}
+
+/* = 画像（card-img-top） ======================================= */
+.my-card-img-top {
+	width: 100%;
+	height: auto;
+	border-top-left-radius: var(--radius);
+	border-top-right-radius: var(--radius);
+	display: block;
+	object-fit: cover; /* アスペクト比を保ったままトリミング */
+}
+
+/* = header 共通 ================================================ */
+.my-card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--spacer-2) var(--spacer-3);
+	border-bottom: var(--border-width) var(--border-style) var(--border-color);
+	font-weight: var(--font-weight-semibold);
+	font-size: var(--font-size-sm);
+	background-color: var(--color-light);
+	color: var(--color-text);
+}
+
+/* headerにアイコンなどを入れる時のタイトルサイズ */
+.my-card-header .my-card-title {
+	font-size: var(--font-size-base);
+	margin: 0;
+}
+
+/* = body 共通 =================================================== */
+.my-card-body {
+	flex: 1 1 auto;
+	padding: var(--spacer-3);
+	background-color: var(--color-bg);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--color-text);
+}
+
+/* = footer（任意） ============================================== */
+.my-card-footer {
+	padding: var(--spacer-2) var(--spacer-3);
+	border-top: var(--border-width) var(--border-style) var(--border-color);
+	background-color: var(--color-light-hover);
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+}
+
+/* = バリエーション：Hover強調カード ============================ */
+.my-card-hover:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--shadow-lg);
+	transition: all var(--transition-fast);
+}
+
+/* = 固定高サムネイル（上書き意図） ============================ */
+.my-card-img-top {
+	height: 200px;  /* ここで固定高を指定。可変にしたい場合は別クラス化を推奨 */
+	object-fit: cover;
+}

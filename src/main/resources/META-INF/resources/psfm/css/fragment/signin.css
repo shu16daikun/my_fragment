@@ -1,0 +1,44 @@
+/* ----------------------------------------------------------------
+   formSignin.css（サインインフォームのラッパー）
+   目的：
+    - サインイン領域をカード調に整形。高さは“最低でも 70vh”、中身に応じて伸縮。
+
+   DOM前提（例）：
+    <section class="my-form-signin">
+      <!-- ロゴ / 見出し / 入力 / ボタン -->
+    </section>
+
+   依存トークン（var.css）：
+    - 幅/高さ：--max-width-sm
+    - 余白/角/影：--form-padding-x, --spacer-3, --radius-lg, --shadow
+    - 背景色：--color-bg
+    - 速度：--transition-fast
+
+   運用メモ：
+    - 画面中央寄せは親側（例：.my-items-center-body など）で行う想定。
+    - 中身が極端に多い画面では .my-form-signin に overflow-y:auto を付与して良い。
+------------------------------------------------------------------*/
+
+/* === form-signin 相当 === */
+.my-form-signin {
+	width: 100%;
+	max-width: var(--max-width-sm);
+	box-sizing: border-box;
+	margin: 0;
+	padding: var(--form-padding-x, var(--spacer-3));
+	/* ▼ 高さ制御を「自動 + 最小 70vh」に変更 */
+	min-height: 70vh;             /* 画面の70%を下回らない */
+	height: auto;                 /* 中身に合わせて伸びる */
+	/* max-height は撤廃（必要なら overflow-y:auto を使う） */
+	background-color: var(--color-bg);
+	border-radius: var(--radius-lg);
+	transition: box-shadow var(--transition-fast);
+	/* 中身が極端に多い場合はスクロールさせたいなら以下を有効化
+	overflow-y: auto;
+	*/
+}
+
+/* hover 時に少し浮き上がる演出 */
+.my-form-signin:hover {
+	box-shadow: var(--shadow);
+}

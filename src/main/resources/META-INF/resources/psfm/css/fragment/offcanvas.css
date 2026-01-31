@@ -1,0 +1,140 @@
+/* ----------------------------------------------------------------
+   offcanvas.css（オフキャンバス）
+   目的：
+    - 画面右からスライドインするメニュー/情報パネル（ユーザー/管理者の配色対応）。
+    - 親に .open を付与で開閉、Backdrop は別要素で制御。
+
+   DOM前提（例）：
+    <aside class="my-offcanvas-user open">     <!-- or .my-offcanvas-admin -->
+      <div class="my-offcanvas-backdrop"></div>
+      <div class="my-offcanvas">
+        <header class="my-offcanvas-header">
+          <span>メニュー</span>
+          <button class="my-offcanvas-close" aria-label="閉じる">×</button>
+        </header>
+        <nav class="my-offcanvas-body">
+          <ul>
+            <li><a href="#">リンクA</a></li>
+            <li><a href="#">リンクB</a></li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+   ふるまい：
+    - .open で右端からスライドイン（right: 0）。閉じるとパネルは右外（right: -width）。
+    - Backdrop は .open で表示（fadeIn アニメ）。
+
+   依存トークン（var.css）：
+    - サイズ/色/文字：--offcanvas-width, --offcanvas-bg-(admin|user), --offcanvas-text-color
+    - 見た目：--radius, --shadow-lg, --border-*, --color-success-hover, --color-dark-hover
+    - 操作感：--transition-base/fast, --offcanvas-link-hover-opacity
+    - レイヤ：--zindex-offcanvas, --zindex-offcanvas-backdrop
+------------------------------------------------------------------*/
+
+/* === Offcanvas 本体（パネル） ================================= */
+.my-offcanvas {
+	position: fixed;
+	top: 0;
+	right: calc(-1 * var(--offcanvas-width));
+	width: var(--offcanvas-width);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	color: var(--offcanvas-text-color);
+	box-shadow: var(--shadow-lg);
+	transition: right var(--transition-base);
+	z-index: var(--zindex-offcanvas);
+}
+
+/* === 背景カラー（役割別） ===================================== */
+.my-offcanvas-admin .my-offcanvas {
+	background-color: var(--offcanvas-bg-admin);
+}
+.my-offcanvas-user .my-offcanvas {
+	background-color: var(--offcanvas-bg-user);
+}
+
+/* === Open時の動作 ============================================== */
+.my-offcanvas-admin.open .my-offcanvas,
+.my-offcanvas-user.open .my-offcanvas {
+	right: 0;
+}
+
+/* === Backdrop（背景フェード） ================================= */
+.my-offcanvas-backdrop {
+	position: fixed;
+	inset: 0;
+	background: var(--offcanvas-backdrop-bg);
+	z-index: var(--zindex-offcanvas-backdrop);
+	display: none;
+	transition: opacity var(--transition-base);
+}
+.my-offcanvas-admin.open .my-offcanvas-backdrop,
+.my-offcanvas-user.open .my-offcanvas-backdrop {
+	display: block;
+	animation: fadeIn var(--transition-base);
+}
+
+/* === Header ==================================================== */
+.my-offcanvas-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--spacer-3);
+	border-bottom: var(--border-width) var(--border-style) var(--border-color);
+	font-size: var(--offcanvas-header-font-size);
+	font-weight: var(--offcanvas-header-font-weight);
+	color: var(--offcanvas-text-color);
+}
+.my-offcanvas-close {
+	background: transparent;
+	border: none;
+	font-size: var(--offcanvas-close-size);
+	line-height: var(--line-height-xs);
+	cursor: pointer;
+	color: var(--offcanvas-text-color);
+	opacity: var(--offcanvas-close-opacity);
+	transition: opacity var(--transition-fast);
+}
+.my-offcanvas-close:hover {
+	opacity: var(--offcanvas-close-opacity-hover);
+}
+
+/* === Body（メニュー領域） ===================================== */
+.my-offcanvas-body {
+	flex: 1 1 auto;
+	padding: var(--spacer-3);
+	overflow-y: auto;
+}
+.my-offcanvas-body ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.my-offcanvas-body ul li {
+	margin-bottom: var(--spacer-2);
+}
+.my-offcanvas-body ul li a {
+	display: block;
+	padding: var(--spacer-2) var(--spacer-3);
+	color: var(--offcanvas-text-color);
+	text-decoration: none;
+	border-radius: var(--radius-sm);
+	transition: background-color var(--transition-fast), opacity var(--transition-fast);
+}
+.my-offcanvas-admin .my-offcanvas-body ul li a:hover {
+	background-color: var(--color-success-hover);
+	opacity: var(--offcanvas-link-hover-opacity);
+}
+.my-offcanvas-user .my-offcanvas-body ul li a:hover {
+	background-color: var(--color-dark-hover);
+	opacity: var(--offcanvas-link-hover-opacity);
+}
+
+/* === Animation ================================================= */
+@keyframes fadeIn {
+	from { opacity: var(--opacity-0); }
+	to   { opacity: var(--opacity-100); }
+}

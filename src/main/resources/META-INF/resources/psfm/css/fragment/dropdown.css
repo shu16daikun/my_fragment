@@ -1,0 +1,135 @@
+/* ----------------------------------------------------------------
+   dropdown.css（ドロップダウン）
+   目的：
+    - ボタンをトリガに上下へメニューを展開する軽量ドロップダウン。
+    - 通常版（.my-dropdown）とダーク版（.my-dropdown-dark）を提供。
+
+   DOM前提（例）：
+    <div class="my-dropdown">            <!-- or .my-dropdown-dark -->
+      <button type="button" aria-haspopup="true" aria-expanded="false">メニュー</button>
+      <ul role="menu">                    <!-- JSで必要なら role/menuitem 付与 -->
+        <li><a href="#" role="menuitem">項目A</a></li>
+        <li><a href="#" role="menuitem">項目B</a></li>
+      </ul>
+    </div>
+
+   ふるまい：
+    - :hover / :focus-within で ul を表示（キーボード操作でも開く）
+    - 絶対配置（親を position:relative）で下方向にドロップ
+
+   依存変数（var.css）：
+    - レイヤ/サイズ：--dropdown-zindex, --dropdown-min-width
+    - 余白/角/影：--dropdown-padding-*, --dropdown-border-*, --dropdown-border-radius, --dropdown-shadow
+    - 色（Light）：--dropdown-bg, --dropdown-link-color, --dropdown-link-hover-*, --link-decoration
+    - 色（Dark）：--dropdown-dark-bg, --dropdown-dark-link-*
+    - トランジション：--dropdown-transition
+
+   注意：
+    - 現状 display: none/block 切替のため opacity のトランジションは見えない。
+      アニメを効かせたい場合は、visibility/opacity 方式へ切替（メニューの占有を避けるため position と pointer-events も併用）を検討。
+------------------------------------------------------------------*/
+
+/* = 共通コンテナ ================================================ */
+.my-dropdown,
+.my-dropdown-dark {
+	position: relative;
+	display: inline-block;
+}
+
+/* = トリガーボタン ============================================== */
+.my-dropdown > button,
+.my-dropdown-dark > button {
+	cursor: pointer;
+}
+
+/* = メニュー本体 ================================================ */
+.my-dropdown ul,
+.my-dropdown-dark ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: var(--dropdown-zindex);
+	min-width: var(--dropdown-min-width);
+	margin: 0;
+	padding: var(--dropdown-padding-y) 0;
+	list-style: none;
+	border: var(--border-width) var(--border-style) var(--dropdown-border-color);
+	border-radius: var(--dropdown-border-radius);
+	background-color: var(--dropdown-bg);
+	box-shadow: var(--dropdown-shadow);
+	transition: opacity var(--dropdown-transition);
+}
+
+/* = 開閉トリガ（Hover / FocusWithin） ===========================
+   - Hover：マウス
+   - FocusWithin：Tab でボタンにフォーカスした場合など */
+.my-dropdown:hover ul,
+.my-dropdown:focus-within ul,
+.my-dropdown-dark:hover ul,
+.my-dropdown-dark:focus-within ul {
+	display: block;
+}
+
+/* = 項目共通 ===================================================== */
+.my-dropdown ul li,
+.my-dropdown-dark ul li {
+	padding: var(--dropdown-padding-y) var(--dropdown-padding-x);
+	font-size: var(--dropdown-font-size);
+	color: var(--dropdown-link-color);
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+/* = 通常リンク =================================================== */
+.my-dropdown ul li a {
+	color: var(--dropdown-link-color);
+	text-decoration: var(--link-decoration);
+}
+
+/* = hover（通常配色） =========================================== */
+.my-dropdown ul li:hover,
+.my-dropdown ul li a:hover {
+	background-color: var(--dropdown-link-hover-bg);
+	color: var(--dropdown-link-hover-color);
+}
+
+/* = Darkバージョン ============================================== */
+.my-dropdown-dark ul {
+	background-color: var(--dropdown-dark-bg);
+	color: var(--dropdown-dark-link-color);
+}
+
+.my-dropdown-dark ul li,
+.my-dropdown-dark ul li a {
+	color: var(--dropdown-dark-link-color);
+	text-decoration: var(--link-decoration);
+}
+
+/* hover（ダーク配色） */
+.my-dropdown-dark ul li:hover,
+.my-dropdown-dark ul li a:hover {
+	background-color: var(--dropdown-dark-link-hover-bg);
+	color: var(--dropdown-dark-link-hover-color);
+}
+
+/* = フォーム内ではフル幅で伸ばす =============================== */
+.my-form-input .my-dropdown,
+.my-form-input .my-dropdown-dark {
+	display: block;        /* inline-block → block */
+	width: 100%;
+}
+
+.my-form-input .my-dropdown > button,
+.my-form-input .my-dropdown-dark > button,
+.my-form-input .my-dropdown > input,
+.my-form-input .my-dropdown-dark > input {
+	width: 100%;           /* トリガ自体を100% */
+	box-sizing: border-box;
+}
+
+.my-form-input .my-dropdown ul,
+.my-form-input .my-dropdown-dark ul {
+	min-width: 100%;       /* メニューもトリガ幅に合わせる */
+}
+

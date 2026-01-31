@@ -1,0 +1,120 @@
+/* ----------------------------------------------------------------
+   common.css（レイアウト共通）
+   目的：
+    - ページ骨格（全高/フレックス縦積み）とコンテナ系ヘルパーを提供。
+    - var.css の --container-* と連携して"左右揃え"や"最大幅"を統一。
+
+   主なクラスの意味：
+    - html, body：高さ100%/余白リセット。bodyは縦フレックスでフッター押し下げ。
+    - .my-container：中央寄せの標準コンテナ（左右Paddingあり・最大幅はBPで更新）。
+    - .my-container-fluid：横いっぱいのフレックス行（Navbar等に使用）。
+    - .my-container-left：フル幅要素の内容左端を .my-container の左端に揃える補助。
+    - .move-right-children：子要素を右寄せ（flex-end）。
+
+   依存：
+    - var.css（--container-max, --container-padding-x, --spacer-*）
+
+   注意：
+    - .my-container-left は calc((100vw - var(--container-max)) / 2) を使うため
+      var.css の @media による --container-max 上書きが前提。
+------------------------------------------------------------------*/
+
+/* ========== Reset / Page Skeleton ========== */
+html, body{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh; /* フッター押し下げ用 */
+}
+
+/* ========== Container（標準） ========== */
+.my-container {
+	width: 100%;
+	padding-left: var(--spacer-4);
+	padding-right: var(--spacer-4);
+	margin-left: auto;
+	margin-right: auto;
+	flex: 1 0 auto; /* 本文領域を縦に伸ばす */
+}
+
+/* ========== Container Left Alignment Helper ==========
+   目的：
+    - 画面幅いっぱいの帯（背景色/画像等）がありつつ、中身の左端を
+      通常コンテナ（.my-container / .my-container-fluid）の左位置に揃えたい時に使用。
+   使い方：
+    - 親が幅100%のブロックであること。
+    - 内側要素の左Paddingを "container 左Padding + 画面中央寄せの左右余白" に設定する。
+------------------------------------------------------ */
+.my-container-left{
+	margin-left: 0;
+	margin-right: 0;
+	box-sizing: border-box;
+	max-width: var(--max-width-lg);
+	flex: 1 0 auto;
+
+	/* 左は中央寄せ余白＋コンテナ左右Padding分だけ押し込む。
+	   小画面でマイナスにならないよう max() で保護。 */
+	padding-left: max(
+		var(--container-padding-x),
+		calc((100vw - var(--container-max)) / 2 + var(--container-padding-x))
+	);
+
+	/* 右側は要件に応じて。揃えるなら同値、不要なら 0 でも可。 */
+	padding-right: var(--container-padding-x);
+}
+
+/* ========== Container（横幅いっぱいの列：Navbar向け） ========== */
+.my-container-fluid {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding-left: var(--spacer-4);
+	padding-right: var(--spacer-4);
+	margin-left: auto;
+	margin-right: auto;
+	height: 4.5rem; /* Navbar 高さをここで決める（--navbar-height に合わせてもOK） */
+}
+
+/* ========== Breakpoints：最大幅（Bootstrap準拠） ========== */
+@media (min-width: 576px) {
+	.my-container,
+	.my-container-fluid {
+		max-width: 540px;
+	}
+}
+@media (min-width: 768px) {
+	.my-container,
+	.my-container-fluid {
+		max-width: 720px;
+	}
+}
+@media (min-width: 992px) {
+	.my-container,
+	.my-container-fluid {
+		max-width: 960px;
+	}
+}
+@media (min-width: 1200px) {
+	.my-container,
+	.my-container-fluid {
+		max-width: 1140px;
+	}
+}
+@media (min-width: 1400px) {
+	.my-container,
+	.my-container-fluid {
+		max-width: 1320px;
+	}
+}
+
+/* ========== Utilities ========== */
+.move-right-children {
+	display: flex;
+	justify-content: end;
+}

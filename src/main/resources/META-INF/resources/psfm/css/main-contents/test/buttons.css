@@ -1,0 +1,24 @@
+.my-btn-primary{
+	width: 200px !important;
+	height: auto !important;
+}
+
+.my-btn-secondary{
+	width: auto !important;
+	height: auto !important;
+}
+
+.my-btn-success{
+	width: 300px !important;
+	height: 100px !important;
+}
+
+.my-btn-danger{
+	width: 500px !important;
+	height: 200px !important;
+}
+
+.my-btn-warning{
+	width: 100% !important;
+	height: 100% !important;
+}

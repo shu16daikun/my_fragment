@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Footer', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/footer.css}">
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: footer] START -->
+		<footer class="my-footer" id="page-footer">
+			<!-- container の幅に揃える -->
+			<div class="my-container">
+				<div class="my-footer-inner">
+					<p class="my-footer-text">
+						Album example is © Bootstrap, but please download and customize it for yourself!
+					</p>
+					<div class="my-footer-actions">
+						<a href="#top">Back to top</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- [fragment: footer] END -->
+	</body>
+	<!-- [body] END -->
+</html>

@@ -1,0 +1,47 @@
+/* ----------------------------------------------------------------
+   tooltip.css（ツールチップ）
+   目的：
+    - 軽量なツールチップのベース。位置決めは親側のJS/CSSで制御する前提。
+
+   DOM前提（例）：
+    <span class="has-tooltip" style="position:relative;">
+      ホバー対象
+      <span class="my-tooltip">説明テキスト</span>
+    </span>
+   - 表示時は .my-tooltip に .show を付与（JS側）。
+
+   依存トークン（var.css）：
+    - レイヤ：--zindex-tooltip
+    - 配色/形：--tooltip-bg/color, --tooltip-border-radius
+    - 余白/文字：--tooltip-padding-*, --tooltip-font-size, --tooltip-line-height, --tooltip-max-width
+    - 位置/速度：--tooltip-offset, --tooltip-transition
+------------------------------------------------------------------*/
+
+/* === Tooltip 本体 === */
+.my-tooltip {
+	position: absolute;
+	z-index: var(--zindex-tooltip); /* Bootstrap準拠 */
+	background: var(--tooltip-bg, var(--color-dark));
+	color: var(--tooltip-color, var(--color-light));
+	padding: var(--tooltip-padding-y, 0.35rem) var(--tooltip-padding-x, 0.6rem);
+	border-radius: var(--tooltip-border-radius, var(--radius-sm));
+	font-size: var(--tooltip-font-size, var(--font-size-sm));
+	line-height: var(--tooltip-line-height, var(--line-height-sm));
+	max-width: var(--tooltip-max-width, 300px);
+	box-sizing: border-box; /* padding 分を含めて width 計算 */
+	word-break: break-word;
+	white-space: normal;
+	opacity: var(--tooltip-opacity, 0);
+	transform: translateY(var(--tooltip-offset, -4px)); /* 初期位置 */
+	transition:
+		opacity var(--tooltip-transition, var(--transition-fast)),
+		transform var(--tooltip-transition, var(--transition-fast));
+	pointer-events: none; /* hover干渉防止 */
+}
+
+/* === 表示状態 === */
+.my-tooltip.show {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: none;
+}

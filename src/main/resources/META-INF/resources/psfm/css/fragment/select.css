@@ -1,0 +1,63 @@
+/* ----------------------------------------------------------------
+   select.css（<select>の基礎スタイル＋任意のカスタム矢印）
+   役割：
+    - <select>の見た目（高さ/余白/枠/フォーカス）を input と揃える
+    - デフォルトは“ネイティブ矢印”。必要な画面だけ .my-select--customIcon を追加
+------------------------------------------------------------------*/
+
+/* === 基本 === */
+.my-select {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+
+	/* input と同じトークンで高さを揃える */
+	padding: var(--input-padding-top)
+	         var(--input-padding-x)
+	         var(--input-padding-bottom)
+	         var(--input-padding-x);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+
+	color: var(--select-color, inherit);
+	background-color: var(--select-bg, var(--color-light));
+	background-clip: padding-box;
+
+	border-width: var(--border-width);
+	border-style: var(--border-style);
+	border-color: var(--select-border-color, var(--border-color));
+	border-radius: var(--select-border-radius, var(--radius));
+
+	transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+	font-family: var(--font-family-sans);
+}
+
+/* === hover / focus === */
+.my-select:hover,
+.my-select:focus {
+	outline: none;
+	border-color: var(--color-primary);
+	box-shadow: var(--select-focus-shadow, none);
+}
+
+/* === disabled === */
+.my-select:disabled {
+	background-color: var(--color-light-hover);
+	color: var(--color-muted);
+	opacity: var(--opacity-75, 0.75);
+	cursor: not-allowed;
+}
+
+/* === （任意）カスタム矢印を使いたい場合だけこの修飾子を付与 === */
+.my-select.my-select--customIcon {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+
+	padding-right: calc(var(--input-padding-x) * 3);
+
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right var(--input-padding-x) center;
+	background-size: 1rem auto;
+}

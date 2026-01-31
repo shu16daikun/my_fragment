@@ -1,0 +1,205 @@
+/* ----------------------------------------------------------------
+   btnGroupVerticel.css（選択肢ボタングループ：横/縦）
+   目的：
+    - ラジオ/チェックボックスを隠し、label をボタンとして操作するUIを提供。
+    - 横並び（.my-btn-group-horizontal）と縦積み（.my-btn-group）の両対応。
+
+   DOM前提（例）：
+    <div class="my-btn-group-horizontal [is-invalid] [has-unknown] [is-equal]">
+      <div class="my-btn-option-title">質問タイトル</div>
+      <div class="my-btn-option [is-unknown]">
+        <input type="checkbox" id="opt1">
+        <label for="opt1">選択肢</label>
+        <div class="my-invalid">エラーメッセージ</div>
+      </div>
+      ...
+    </div>
+
+   依存変数（var.css）：
+    - 余白/角/影/色：--spacer-* / --radius / --shadow-sm / --color-*
+    - ボタン基準：--btn-horiz-min
+    - 速度：--transition-fast
+    - テキスト：--font-size-base/sm, --line-height-base
+
+   注意：
+    - エラーメッセージの「席ずれ」を防ぐため、横レイアウトでは visibility で制御。
+    - “unknown（わからない）”は注意色（warning）で差別化。
+    - :root の --error-line-height はここで暫定定義（グローバル化したい場合は var.css へ移行推奨）。
+------------------------------------------------------------------*/
+
+/* =========================
+   Tokens（必要なら調整）
+   ========================= */
+:root{
+	/* エラー行の最低高：縦の“席”を常に確保してズレ防止 */
+	--error-line-height: calc(var(--font-size-sm) * 1.6);
+}
+
+/* =========================
+   Base（共通）
+   ========================= */
+
+/* 行内エラー（ベースは非表示・左寄せ）
+   ※ 横グループでは下で上書き（visibility制御） */
+.my-invalid{
+	display: none;
+	margin-top: var(--spacer-1);
+	font-size: var(--font-size-sm);
+	color: var(--color-danger);
+	text-align: left;
+}
+
+/* inputは隠してlabelで操作（hidden input割込み対策で ~ を使う） */
+.my-btn-option input,
+.my-btn-group input{
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+.my-btn-option input[type="checkbox"]:focus ~ label,
+.my-btn-group  input[type="checkbox"]:focus ~ label{
+	outline: 0;
+	box-shadow: var(--shadow-sm);
+	border-color: var(--color-secondary-hover);
+}
+.my-btn-option input[type="checkbox"]:checked ~ label,
+.my-btn-group  input[type="checkbox"]:checked ~ label{
+	color: var(--color-light);
+	background-color: var(--color-secondary);
+	border-color: var(--color-secondary-hover);
+}
+
+/* 共通ラベル（横/縦の差分は各セクションで上書き） */
+.my-btn-option label,
+.my-btn-group  label{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--spacer-2) var(--spacer-3);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--color-secondary);
+	background-color: transparent;
+	border: var(--border-width) var(--border-style) var(--color-secondary-hover);
+	cursor: pointer;
+	transition: all var(--transition-fast);
+	text-align: center;
+}
+.my-btn-option label:hover,
+.my-btn-group  label:hover{
+	background-color: var(--color-secondary-hover);
+	color: var(--color-light);
+}
+
+/* “わからない”の配色差別化（横/縦共通） */
+.my-btn-option.is-unknown label{
+	border-color: var(--color-warning);
+	color: var(--color-warning);
+}
+.my-btn-option.is-unknown label:hover{
+	background-color: var(--color-warning-hover);
+	color: var(--color-dark);
+}
+.my-btn-option.is-unknown input[type="checkbox"]:checked ~ label{
+	background-color: var(--color-warning);
+	color: var(--color-dark);
+	border-color: var(--color-warning-hover);
+}
+
+/* =========================
+   Horizontal（今回の画面）
+   ========================= */
+
+.my-btn-group-horizontal{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	/* ← 横の余白は margin に移管。縦だけ gap を残す */
+	column-gap: 0;
+	row-gap: var(--spacer-1);
+}
+
+/* タイトルは先頭にインラインで並べる（1行占有しない） */
+.my-btn-group-horizontal > .my-btn-option-title{
+	display: inline-flex;
+	flex: 0 0 auto;
+	white-space: nowrap;
+	margin-inline-end: var(--spacer-2);
+	color: var(--color-secondary);
+}
+
+/* 横並びアイテムの水平方向の間隔は margin で統一 */
+.my-btn-group-horizontal > .my-btn-option-title,
+.my-btn-group-horizontal .my-btn-option{
+	margin-right: var(--spacer-2);
+}
+
+/* 選択肢：横並び維持＋等間隔（min幅は横のみ要求） */
+.my-btn-group-horizontal .my-btn-option{
+	display: inline-flex;
+}
+.my-btn-option label{
+	min-width: var(--btn-horiz-min);
+	border-radius: var(--radius);
+	white-space: normal;
+}
+
+/* “わからない”の右側に固定余白（DOM構造に依存しない） */
+.my-btn-group-horizontal.has-unknown .my-btn-option.is-unknown{
+	margin-inline-end: calc(var(--btn-horiz-min) + var(--spacer-2));
+}
+
+/* 行内エラー：常に席を確保（min-height）してズレ防止
+   通常はvisibilityで隠す／不正時のみ見せる */
+.my-btn-group-horizontal .my-invalid{
+	display: block;                 /* ← display:noneは使わない */
+	flex: 0 0 100%;
+	width: 100%;
+	order: 100;
+	min-height: var(--error-line-height);
+	visibility: hidden;             /* ← 非表示だが場所は取る */
+	margin: 0;                      /* ← column-gapの影響を受けない */
+	box-sizing: border-box;
+}
+.my-btn-group-horizontal.is-invalid .my-invalid{
+	visibility: visible;
+}
+
+/* 等幅オプション（任意） */
+.my-btn-group-horizontal.is-equal .my-btn-option{
+	flex: 1 1 0;
+	min-width: 12rem;
+}
+
+/* =========================
+   Vertical（縦積み版：任意）
+   ========================= */
+
+.my-btn-group{
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+
+/* 縦版は角丸を外し、上下だけ角丸を戻す */
+.my-btn-group label{
+	border-radius: 0;
+}
+.my-btn-group label:first-of-type{
+	border-top-left-radius: var(--radius);
+	border-top-right-radius: var(--radius);
+}
+.my-btn-group label:last-of-type{
+	border-bottom-left-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
+}
+
+/* 縦版の行内エラーは従来どおり（表示はJSが制御） */
+.my-btn-group.is-invalid .my-invalid{
+	display: block;
+}

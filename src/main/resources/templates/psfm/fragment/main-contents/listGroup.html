@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('ListGroup', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/listGroup.css}">
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: list-group] START -->
+		<div class="my-list-group">
+			<ol>
+				<li><a href="#">1章　　　XXXXXXXXXXXXXXXXXXXXXXX</a></li>
+				<li><a href="#">2章　　　XXXXXXXXXXXXXXXXXXXXXXX</a></li>
+				<li><a href="#">3章　　　XXXXXXXXXXXXXXXXXXXXXXX</a></li>
+			</ol>
+		</div>
+		<!-- [fragment: list-group] END -->
+	</body>
+	<!-- [body] END -->
+</html>

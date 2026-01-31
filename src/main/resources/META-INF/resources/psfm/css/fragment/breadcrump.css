@@ -1,0 +1,63 @@
+/* ----------------------------------------------------------------
+   breadcrump.css（パンくず）
+   目的：
+    - 位置情報ナビゲーション（パンくず）をシンプルに表現する。
+
+   主なブロック：
+    - .my-breadcrump-simple nav > ol > li > a
+      - 区切りは CSS の li + li::before で自動生成（">"）
+
+   依存変数（var.css）：
+    - --radius（角丸）／--spacer-*（余白）／--color-* /--link-color-*（色）
+
+   注意：
+    - アクティブ（最後の li）はリンク無効化（pointer-events:none）
+    - 綴り "breadcrump" はテンプレ名に合わせて維持（将来直す際はHTML/CSS/JS一括で）
+------------------------------------------------------------------*/
+
+/* nav を Bootstrap 風に */
+.my-breadcrump-simple nav {
+	display: block;
+}
+
+.my-breadcrump-simple nav ol {
+	margin: 0;
+	padding: var(--spacer-3) 0;   /* 上下の余白だけ再指定 */
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	border-radius: var(--radius);
+}
+
+/* li 共通 */
+.my-breadcrump-simple nav ol li {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	color: var(--color-text);
+}
+
+/* a 共通 */
+.my-breadcrump-simple nav ol li a {
+	color: var(--link-color-secondary);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+.my-breadcrump-simple nav ol li a:hover {
+	text-decoration: underline;
+	color: var(--link-color-secondary-hover);
+}
+
+/* 区切り文字（'>'を自動で入れる） */
+.my-breadcrump-simple nav ol li + li::before {
+	content: ">";
+	padding: 0 var(--spacer-2);
+	color: var(--color-muted);
+}
+
+/* 最後の要素をアクティブ表示（非リンク） */
+.my-breadcrump-simple nav ol li:last-child {
+	color: var(--color-secondary);
+	pointer-events: none;
+}

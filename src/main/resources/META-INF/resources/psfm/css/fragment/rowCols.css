@@ -1,0 +1,117 @@
+/* ----------------------------------------------------------------
+   rowCols.css（レスポンシブ行列）
+   目的：
+    - “最大N列”のカードグリッドを、画面幅に応じて 2→3→4→5 列などに自動調整。
+    - 子要素幅は clamp(min, %, max) で暴れを抑制（最小/最大カード幅を保証）。
+
+   DOM前提（例）：
+    <div class="my-row-cols-responsive-max-4">
+      <div><article class="my-card">…</article></div>
+      <div>…</div>
+      …
+    </div>
+
+   依存トークン（var.css）：
+    - 余白：--grid-gap-sm
+    - カード幅：--grid-card-min-width, --grid-card-max-width
+    - 速度：--transition-fast
+
+   注意：
+    - ラッパーに gap と 子に padding + 親に負の margin を併用（既存踏襲）。
+      どちらかに寄せるときは設計意図に合わせて統一を検討。
+------------------------------------------------------------------*/
+
+/* =========================================
+	Row: 最大5 / 最大4 / 最大3 列（幅ガード付き）
+	- 既存の段階的レイアウトは維持
+	- clamp(min, %, max) で幅の暴れを抑制
+========================================= */
+
+/* ラッパー（既存のまま想定） */
+.my-row-cols-responsive-max-5,
+.my-row-cols-responsive-max-4,
+.my-row-cols-responsive-max-3{
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--grid-gap-sm);
+	margin: calc(-1 * var(--grid-gap-sm));
+	box-sizing: border-box;
+}
+
+/* 子要素の共通（既存のまま想定） */
+.my-row-cols-responsive-max-5 > div,
+.my-row-cols-responsive-max-4 > div,
+.my-row-cols-responsive-max-3 > div{
+	box-sizing: border-box;
+	padding: var(--grid-gap-sm);
+	transition: all var(--transition-fast);
+}
+
+/* ===== 最大5列（ベースは 5列）===== */
+/* ≥1200px: 5列 */
+.my-row-cols-responsive-max-5 > div{
+	flex: 1 1 clamp(var(--grid-card-min-width), 20%, var(--grid-card-max-width));
+	max-width: clamp(var(--grid-card-min-width), 20%, var(--grid-card-max-width));
+}
+
+/* 992–1199px: 4列 */
+@media (min-width: 992px) and (max-width: 1199.98px){
+	.my-row-cols-responsive-max-5 > div{
+		flex-basis: clamp(var(--grid-card-min-width), 25%, var(--grid-card-max-width));
+		max-width: clamp(var(--grid-card-min-width), 25%, var(--grid-card-max-width));
+	}
+}
+
+/* 576–991px: 3列 */
+@media (min-width: 576px) and (max-width: 991.98px){
+	.my-row-cols-responsive-max-5 > div{
+		flex-basis: clamp(var(--grid-card-min-width), 33.3333%, var(--grid-card-max-width));
+		max-width: clamp(var(--grid-card-min-width), 33.3333%, var(--grid-card-max-width));
+	}
+}
+
+/* ≤575.98px: 2列 */
+@media (max-width: 575.98px){
+	.my-row-cols-responsive-max-5 > div{
+		flex-basis: clamp(var(--grid-card-min-width), 50%, var(--grid-card-max-width));
+		max-width: clamp(var(--grid-card-min-width), 50%, var(--grid-card-max-width));
+	}
+}
+
+/* ===== 最大4列（ベースは 2列 → 3列 → 4列固定）===== */
+/* ≤575.98px: 2列 */
+.my-row-cols-responsive-max-4 > div{
+	flex: 1 1 clamp(var(--grid-card-min-width), 50%, var(--grid-card-max-width));
+	max-width: clamp(var(--grid-card-min-width), 50%, var(--grid-card-max-width));
+}
+
+/* ≥576px: 3列 */
+@media (min-width: 576px){
+	.my-row-cols-responsive-max-4 > div{
+		flex-basis: clamp(var(--grid-card-min-width), 33.3333%, var(--grid-card-max-width));
+		max-width: clamp(var(--grid-card-min-width), 33.3333%, var(--grid-card-max-width));
+	}
+}
+
+/* ≥992px: 4列（1200px〜も4列のまま） */
+@media (min-width: 992px){
+	.my-row-cols-responsive-max-4 > div{
+		flex-basis: clamp(var(--grid-card-min-width), 25%, var(--grid-card-max-width));
+		max-width: clamp(var(--grid-card-min-width), 25%, var(--grid-card-max-width));
+	}
+}
+
+/* ===== 最大3列（ベースは 2列 → 3列固定）===== */
+/* ≤575.98px: 2列 */
+.my-row-cols-responsive-max-3 > div{
+	flex: 1 1 clamp(var(--grid-card-min-width), 50%, var(--grid-card-max-width));
+	max-width: clamp(var(--grid-card-min-width), 50%, var(--grid-card-max-width));
+}
+
+/* ≥576px: 3列（992px〜/1200px〜も3列のまま） */
+@media (min-width: 576px){
+	.my-row-cols-responsive-max-3 > div{
+		flex-basis: clamp(var(--grid-card-min-width), 33.3333%, var(--grid-card-max-width));
+		max-width: clamp(var(--grid-card-min-width), 33.3333%, var(--grid-card-max-width));
+	}
+}

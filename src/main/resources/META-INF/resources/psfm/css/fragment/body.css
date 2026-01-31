@@ -1,0 +1,25 @@
+/* ----------------------------------------------------------------
+   body.css（ページ骨格ユーティリティ）
+   目的：
+    - 画面中央寄せのレイアウトを簡単に適用するためのヘルパーを提供。
+
+   主なクラス：
+    - .my-items-center-body
+      - 役割：画面の縦横中央寄せ（Flex）＋「最低でも全高」確保。
+      - 想定DOM：<body> 直下、またはページ単位の大枠コンテナに付与。
+
+   依存変数（var.css）：
+    - --spacer-*（上下余白）／--color-bg（背景色）
+------------------------------------------------------------------*/
+
+.my-items-center-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: var(--spacer-4);
+	padding-bottom: var(--spacer-4);
+	/* ▼ コンテンツ増加時に伸びるよう min-height を採用 */
+	min-height: 100vh;            /* 画面高いっぱいを最低値に */
+	height: auto;                 /* コンテンツに合わせて伸びる */
+	background-color: var(--color-bg);
+}

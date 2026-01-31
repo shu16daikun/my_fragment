@@ -1,0 +1,56 @@
+package com.fragment.controller;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+/**
+ * デモ用のログイン系画面を返すコントローラ。 前提条件： - プロパティ psfm.demo.enabled が "true" のときのみ有効化される。 目的： - デモ環境で login /
+ * passwordSet の画面表示を確認する。
+ */
+@Controller
+@ConditionalOnProperty(
+    name = TestLoginController.PROP_DEMO_ENABLED,
+    havingValue = TestLoginController.PROP_TRUE)
+final class TestLoginController {
+
+  /* ===== [private] START ===== */
+
+  /** 有効化プロパティ名（application*.properties で設定） */
+  public static final String PROP_DEMO_ENABLED = "psfm.demo.enabled";
+
+  /** 文字列 "true"（ConditionalOnProperty の havingValue に使用） */
+  public static final String PROP_TRUE = "true";
+
+  /** ビューテンプレートの共通接頭辞（Thymeleaf などの ViewResolver 前提パス） */
+  private static final String VIEW_PREFIX = "psfm/test/login/main-contents/";
+
+  /** ログイン画面のビュー名 */
+  private static final String VIEW_LOGIN = VIEW_PREFIX + "login";
+
+  /** 初回/再設定用パスワード設定画面のビュー名 */
+  private static final String VIEW_PASSWORD_SET = VIEW_PREFIX + "passwordSet";
+
+  /** 画面パス（先頭スラッシュで統一） */
+  private static final String PATH_LOGIN = "/test/login";
+
+  private static final String PATH_PASSWORD_SET = "/test/passwordSet";
+
+  /* ===== [private] END ===== */
+
+  /* ===== [public/protected] START ===== */
+
+  /** ログイン画面を表示する。 引数：なし（デモ表示専用/状態を持たない） 戻り値：ビュー名（Thymeleaf テンプレートの論理名） */
+  @GetMapping(PATH_LOGIN)
+  final String getLogin() {
+    return VIEW_LOGIN;
+  }
+
+  /** パスワード設定画面を表示する。 引数：なし 戻り値：ビュー名（Thymeleaf テンプレートの論理名） */
+  @GetMapping(PATH_PASSWORD_SET)
+  final String getPasswordSet() {
+    return VIEW_PASSWORD_SET;
+  }
+
+  /* ===== [public/protected] END ===== */
+}

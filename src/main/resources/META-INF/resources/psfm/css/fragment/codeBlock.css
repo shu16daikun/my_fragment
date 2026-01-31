@@ -1,0 +1,93 @@
+/* ----------------------------------------------------------------
+   codeBlock.css（コードブロック）
+   目的：
+    - “ファイル名＋コピー”ヘッダー付きのダークテーマ・コード表示枠。
+
+   DOM前提（例）：
+    <section class="my-code-block">
+      <header class="my-code-block-header">
+        <span class="my-code-block-title">Sample.java</span>
+        <div class="my-code-block-actions">
+          <button class="my-btn-secondary">コピー</button>
+        </div>
+      </header>
+      <div class="my-code-block-body">
+        <pre><code>...</code></pre>
+      </div>
+    </section>
+
+   依存変数（var.css）：
+    - 枠/角/影：--border-width, --border-style, --border-color-dark, --radius, --shadow-sm
+    - 色：--color-dark, --color-dark-hover, --color-light
+    - 余白/文字：--spacer-*, --font-size-*, --font-family-mono, --line-height-*
+    - ボタン：--btn-padding-*, --btn-radius, --btn-font-size, --btn-line-height-sm（未定義時はフォールバック）
+
+   注意：
+    - 小ボタンの line-height は var(--btn-line-height-sm, var(--line-height-sm)) で安全化。
+    - スクロールは pre に overflow-x:auto。必要に応じて慣性（-webkit-overflow-scrolling: touch）を追加可。
+------------------------------------------------------------------*/
+
+/* = 全体 ======================================================== */
+.my-code-block {
+	position: relative;
+	margin-bottom: var(--spacer-3);
+	border: var(--border-width) var(--border-style) var(--border-color-dark);
+	border-radius: var(--radius);
+	background-color: var(--color-dark);   /* ダーク背景 */
+	color: var(--color-light);
+	overflow: hidden;
+	box-shadow: var(--shadow-sm);
+}
+
+/* = ヘッダー（ファイル名 + コピー） ============================ */
+.my-code-block-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--spacer-2) var(--spacer-3);
+	background-color: var(--color-dark-hover); /* 少し濃い背景 */
+	border-bottom: var(--border-width) var(--border-style) var(--border-color-dark);
+	font-weight: var(--font-weight-normal);
+	font-size: var(--font-size-sm);
+	color: var(--color-light);
+}
+
+/* タイトル */
+.my-code-block-title {
+	margin: 0;
+}
+
+/* コピー用ボタン（小型化） */
+.my-code-block-header .my-btn-secondary,
+.my-code-block-header .my-btn-success {
+	padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
+	font-size: var(--font-size-xs);
+	line-height: var(--btn-line-height-sm, var(--line-height-sm)); /* 未定義フォールバック */
+	border-radius: var(--radius-sm);
+}
+
+/* = コード本体 ================================================== */
+.my-code-block-body {
+	padding: var(--spacer-3);
+}
+
+/* pre整形（横スクロール可） */
+.my-code-block pre {
+	margin: 0;
+	padding: var(--spacer-2);
+	border-radius: var(--radius);
+	background-color: transparent;
+	color: var(--color-light);
+	font-size: var(--font-size-sm);
+	font-family: var(--font-family-mono);
+	overflow-x: auto;
+	line-height: var(--line-height-base);
+	white-space: pre;
+	/* モバイルでのスクロール体験を上げたい場合は下を有効化
+	   -webkit-overflow-scrolling: touch; */
+}
+
+.my-code-block code {
+	display: block;
+	white-space: pre;
+}

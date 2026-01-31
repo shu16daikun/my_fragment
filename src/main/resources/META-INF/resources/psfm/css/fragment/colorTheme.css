@@ -1,0 +1,161 @@
+/* =================================================================== */
+/* = Color Themes (filled)                                           = */
+/*	対象: .my-theme-<name> を付与した任意の要素（a, button, div 等）      */
+/*	依存: var.css で --color-<name>, --color-on-<name>,                */
+/*	      --color-<name>-hover, --color-<name>-border を定義             */
+/* =================================================================== */
+
+/* ---- 共通: 視覚トランジション ------------------------------------- */
+/* === 共通トランジション（fragment内テーマのみ対象）=== */
+:where(
+	.my-theme-primary,
+	.my-theme-secondary,
+	.my-theme-success,
+	.my-theme-info,
+	.my-theme-warning,
+	.my-theme-danger,
+	.my-theme-light,
+	.my-theme-dark,
+	.my-theme-pink,
+	.my-theme-orange,
+	.my-theme-lime,
+	.my-theme-teal,
+	.my-theme-indigo,
+	.my-theme-purple,
+	.my-theme-cyan,
+	.my-theme-brown,
+	.my-theme-gray
+){
+	transition: background-color var(--transition-fast, .15s ease),
+		color var(--transition-fast, .15s ease),
+		border-color var(--transition-fast, .15s ease);
+}
+
+
+/* ---- Bootstrap-like ------------------------------------------------ */
+.my-theme-primary {
+	background-color: var(--color-primary);
+	color: var(--color-on-primary);
+	border: 1px solid var(--color-primary-border);
+}
+.my-theme-primary:hover { background-color: var(--color-primary-hover); }
+
+.my-theme-secondary {
+	background-color: var(--color-secondary);
+	color: var(--color-on-secondary);
+	border: 1px solid var(--color-secondary-border);
+}
+.my-theme-secondary:hover { background-color: var(--color-secondary-hover); }
+
+.my-theme-success {
+	background-color: var(--color-success);
+	color: var(--color-on-success);
+	border: 1px solid var(--color-success-border);
+}
+.my-theme-success:hover { background-color: var(--color-success-hover); }
+
+.my-theme-info {
+	background-color: var(--color-info);
+	color: var(--color-on-info);
+	border: 1px solid var(--color-info-border);
+}
+.my-theme-info:hover { background-color: var(--color-info-hover); }
+
+.my-theme-warning {
+	background-color: var(--color-warning);
+	color: var(--color-on-warning);
+	border: 1px solid var(--color-warning-border);
+}
+.my-theme-warning:hover { background-color: var(--color-warning-hover); }
+
+.my-theme-danger {
+	background-color: var(--color-danger);
+	color: var(--color-on-danger);
+	border: 1px solid var(--color-danger-border);
+}
+.my-theme-danger:hover { background-color: var(--color-danger-hover); }
+
+.my-theme-light {
+	background-color: var(--color-light);
+	color: var(--color-on-light);
+	border: 1px solid var(--color-light-border);
+}
+.my-theme-light:hover { background-color: var(--color-light-hover); }
+
+.my-theme-dark {
+	background-color: var(--color-dark);
+	color: var(--color-on-dark);
+	border: 1px solid var(--color-dark-border);
+}
+.my-theme-dark:hover { background-color: var(--color-dark-hover); }
+
+/* ---- Colorful extensions ------------------------------------------- */
+.my-theme-pink {
+	background-color: var(--color-pink);
+	color: var(--color-on-pink);
+	border: 1px solid var(--color-pink-border);
+}
+.my-theme-pink:hover { background-color: var(--color-pink-hover); }
+
+.my-theme-orange {
+	background-color: var(--color-orange);
+	color: var(--color-on-orange);
+	border: 1px solid var(--color-orange-border);
+}
+.my-theme-orange:hover { background-color: var(--color-orange-hover); }
+
+.my-theme-lime {
+	background-color: var(--color-lime);
+	color: var(--color-on-lime);
+	border: 1px solid var(--color-lime-border);
+}
+.my-theme-lime:hover { background-color: var(--color-lime-hover); }
+
+.my-theme-teal {
+	background-color: var(--color-teal);
+	color: var(--color-on-teal);
+	border: 1px solid var(--color-teal-border);
+}
+.my-theme-teal:hover { background-color: var(--color-teal-hover); }
+
+.my-theme-indigo {
+	background-color: var(--color-indigo);
+	color: var(--color-on-indigo);
+	border: 1px solid var(--color-indigo-border);
+}
+.my-theme-indigo:hover { background-color: var(--color-indigo-hover); }
+
+.my-theme-purple {
+	background-color: var(--color-purple);
+	color: var(--color-on-purple);
+	border: 1px solid var(--color-purple-border);
+}
+.my-theme-purple:hover { background-color: var(--color-purple-hover); }
+
+.my-theme-cyan {
+	background-color: var(--color-cyan);
+	color: var(--color-on-cyan);
+	border: 1px solid var(--color-cyan-border);
+}
+.my-theme-cyan:hover { background-color: var(--color-cyan-hover); }
+
+.my-theme-brown {
+	background-color: var(--color-brown);
+	color: var(--color-on-brown);
+	border: 1px solid var(--color-brown-border);
+}
+.my-theme-brown:hover { background-color: var(--color-brown-hover); }
+
+.my-theme-gray {
+	background-color: var(--color-gray);
+	color: var(--color-on-gray);
+	border: 1px solid var(--color-gray-border);
+}
+.my-theme-gray:hover { background-color: var(--color-gray-hover); }
+
+/* ---- アクセシビリティ補助 ----------------------------------------- */
+[class^="my-theme-"]:focus-visible,
+[class*=" my-theme-"]:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}

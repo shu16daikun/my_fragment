@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Modal', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/modal.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<script type="module" th:src="@{/psfm/js/main-contents/test/modal.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: modal(light)] START -->
+		<div class="my-modal" id="modalSample">
+			<!-- Button trigger modal（契約：.my-modal-open + data-modal="#id"） -->
+			<button class="my-btn-primary my-modal-open" data-modal="#modalSample">Modal Open</button>
+
+			<!-- Modal overlay -->
+			<div class="my-modal-contents">
+				<div class="my-modal-fade">
+					<div class="my-modal-dialog">
+						<div class="my-modal-content">
+							<div class="my-modal-header">
+								<h2 class="my-modal-title">Modal title</h2>
+							</div>
+							<div class="my-modal-body">
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+							</div>
+							<div class="my-modal-footer">
+								<button class="my-btn-secondary" data-dismiss="modal">閉じる</button>
+								<button class="my-btn-primary">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- [fragment: modal(light)] END -->
+
+		<!-- [fragment: modal(dark)] START -->
+		<div class="my-modal-dark" id="modalDark">
+			<button class="my-btn-dark my-modal-open" data-modal="#modalDark">Modal Open</button>
+
+			<div class="my-modal-contents">
+				<div class="my-modal-fade">
+					<div class="my-modal-dialog">
+						<div class="my-modal-content">
+							<div class="my-modal-header">
+								<h2 class="my-modal-title">Modal title</h2>
+							</div>
+							<div class="my-modal-body">
+								<span>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+							</div>
+							<div class="my-modal-footer">
+								<button class="my-btn-secondary" data-dismiss="modal">閉じる</button>
+								<button class="my-btn-primary">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- [fragment: modal(dark)] END -->
+	</body>
+	<!-- [body] END -->
+</html>

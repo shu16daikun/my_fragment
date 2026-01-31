@@ -1,0 +1,184 @@
+/* ----------------------------------------------------------------
+   table.css（テーブル）
+   目的：
+    - 見出し/本文/ストライプ/ホバーを備えた共通テーブルを提供。
+    - 追加: 枠線グリッド / 横スクロール / stickyヘッダ・1列目固定 / 列幅上限
+
+   DOM前提（例）：
+    <div class="my-table my-table-bordered my-table-sticky my-table-sticky-first"
+         style="--col-1: 10ch; --col-2: 28ch; --col-3: 24ch;">
+      <table>
+        <thead> <tr><th>…</th></tr> </thead>
+        <tbody> <tr><td>…</td></tr> </tbody>
+      </table>
+    </div>
+
+   依存トークン（var.css）：
+    - 枠/角：--border-width, --border-style, --border-color, --border-color-dark, --radius
+    - 配色：--table-header-bg/color, --table-body-bg, --table-row-striped-bg, --table-row-hover-bg
+            --color-light, --color-light-hover, --color-dark, --color-text
+    - 余白/文字：--table-cell-padding-*, --font-size-*, --line-height-*, --font-weight-*, --letter-spacing-*
+    - 速度：--transition-fast
+------------------------------------------------------------------*/
+
+/* === ラッパ（スクロール親） === */
+.my-table {
+	/* 横幅を超えたら横/縦どちらでもスクロール可能に */
+	overflow: auto;
+	max-width: 100%;
+	border-radius: var(--radius);
+	/* iOS慣性スクロール */
+	-webkit-overflow-scrolling: touch;
+}
+
+/* === テーブル全体 === */
+.my-table table {
+	/* 内容に合わせて広がる（必要時は横スクロール）。最低でも親幅100% */
+	min-width: 100%;
+	width: max-content;
+	box-sizing: border-box;
+	border-collapse: collapse;
+	margin-bottom: var(--spacer-3);
+	background-color: transparent;
+	border: var(--border-width) var(--border-style) var(--border-color);
+	border-radius: var(--radius);
+	overflow: hidden; /* radius をthead/tbodyに効かせる */
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	color: var(--color-text);
+	/* 列幅制御（width指定を尊重して均等計算） */
+	table-layout: fixed;
+}
+
+/* === ヘッダー === */
+.my-table thead {
+	background-color: var(--table-header-bg, var(--color-dark));
+	color: var(--table-header-color, var(--color-light));
+	text-align: left;
+}
+.my-table thead th {
+	padding: var(--table-cell-padding-y, 0.75rem)
+		var(--table-cell-padding-x, 0.75rem);
+	border-bottom: var(--border-width) var(--border-style) var(--border-color-dark);
+	font-weight: var(--font-weight-semibold);
+	font-size: var(--font-size-sm);
+	letter-spacing: var(--letter-spacing-normal);
+}
+
+/* === ボディ === */
+.my-table tbody {
+	background-color: var(--table-body-bg, var(--color-light));
+}
+.my-table tbody td {
+	padding: var(--table-cell-padding-y, 0.75rem)
+		var(--table-cell-padding-x, 0.75rem);
+	border-top: var(--border-width) var(--border-style) var(--border-color);
+	vertical-align: middle;
+	color: var(--color-text);
+	font-size: var(--font-size-sm);
+}
+
+/* === ストライプ（交互背景） === */
+.my-table tbody tr:nth-of-type(odd) {
+	background-color: var(--table-row-striped-bg, var(--color-light-hover));
+}
+
+/* === ホバー時 === */
+.my-table tbody tr:hover {
+	background-color: var(--table-row-hover-bg, rgba(0, 0, 0, 0.05));
+	transition: background-color var(--transition-fast);
+}
+
+/* === A) 枠線グリッド（セルごと枠線） === */
+/* 使うときは .my-table-bordered をラッパに付与 */
+.my-table-bordered table {
+	border: var(--border-width) var(--border-style) var(--border-color);
+}
+.my-table-bordered thead th,
+.my-table-bordered tbody td {
+	/* collapse なので重複しない */
+	border-right: var(--border-width) var(--border-style) var(--border-color);
+	border-bottom: var(--border-width) var(--border-style) var(--border-color);
+}
+.my-table-bordered thead th:last-child,
+.my-table-bordered tbody td:last-child {
+	border-right: none; /* 右端の二重線防止（好みで残してもOK） */
+}
+
+/* === B) 折り返し・長文耐性（共通） === */
+.my-table thead th,
+.my-table tbody td {
+	/* 固い単語/IDでも折り返す（列幅上限と併用） */
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	white-space: normal;
+}
+
+/* === C-1) sticky ヘッダ（オプション） === */
+/* 使うときは .my-table-sticky をラッパに付与（ラッパがスクロール親） */
+.my-table.my-table-sticky thead th {
+	position: sticky;
+	top: 0;
+	z-index: 3; /* 1列目固定より手前に来るよう調整 */
+	/* ヘッダが浮いた時に下の行が透けないよう背景を再指定 */
+	background-color: var(--table-header-bg, var(--color-dark));
+	color: var(--table-header-color, var(--color-light));
+}
+
+/* === C-2) 1列目固定（オプション） === */
+/* 使うときは .my-table-sticky-first をラッパに付与 */
+.my-table.my-table-sticky-first thead th:first-child,
+.my-table.my-table-sticky-first tbody td:first-child {
+	position: sticky;
+	left: 0;
+	z-index: 2; /* ヘッダの z-index(3) 未満にして重なり順を安定 */
+	/* 背景を指定しないと下が透ける */
+	background-color: var(--table-body-bg, var(--color-light));
+	/* スクロール時の境目を見やすく */
+	box-shadow: 1px 0 0 0 var(--border-color);
+}
+/* 交点（左上セル）は最前面に */
+.my-table.my-table-sticky-first thead th:first-child {
+	z-index: 4;
+	background-color: var(--table-header-bg, var(--color-dark));
+	color: var(--table-header-color, var(--color-light));
+	box-shadow: 1px 0 0 0 var(--border-color-dark);
+}
+
+/* === C-3) 列の最大幅（CSS変数で列ごとに指定） =======================
+   使い方：
+    - ラッパ(div.my-table …)に style で --col-1, --col-2 … を必要列だけ指定
+      例）style="--col-1: 10ch; --col-2: 28ch; --col-3: 24rem;"
+    - 未指定の列は自動幅（auto）
+------------------------------------------------------------------*/
+.my-table thead th:nth-child(1),
+.my-table tbody td:nth-child(1) {
+	width: var(--col-1, auto);
+	max-width: var(--col-1, none);
+}
+.my-table thead th:nth-child(2),
+.my-table tbody td:nth-child(2) {
+	width: var(--col-2, auto);
+	max-width: var(--col-2, none);
+}
+.my-table thead th:nth-child(3),
+.my-table tbody td:nth-child(3) {
+	width: var(--col-3, auto);
+	max-width: var(--col-3, none);
+}
+.my-table thead th:nth-child(4),
+.my-table tbody td:nth-child(4) {
+	width: var(--col-4, auto);
+	max-width: var(--col-4, none);
+}
+.my-table thead th:nth-child(5),
+.my-table tbody td:nth-child(5) {
+	width: var(--col-5, auto);
+	max-width: var(--col-5, none);
+}
+/* 必要に応じて 6列目以降もコピペで拡張 */
+
+/* = 判定表示（色分けヘルパー） ================================ */
+.my-table .judge { font-weight: var(--font-weight-semibold); }
+.my-table .judge.success { color: var(--color-success); }
+.my-table .judge.danger  { color: var(--color-danger);  }

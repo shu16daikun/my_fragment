@@ -1,0 +1,6 @@
+/* ボタンもフォームに揃える */
+.my-btn-primary {
+	width: 100%;
+	max-width: var(--max-width-sm);
+	padding: 0.85rem;
+}

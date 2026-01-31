@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<!-- [fragment: common::test-header] START — 画面共通ヘッダ -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Buttons', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START — 当ページ固有のCSS/JS -->
+		<th:block th:fragment="extraHead">
+			<!-- 自作個別css（共通ボタン + 画面固有スタイル） -->
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/main-contents/test/buttons.css}">
+			<!-- 自作個別js（現時点なし） -->
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [fragment: common::test-header] END -->
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [main] START -->
+		<!-- [fragment: buttons] START — 各デモ画面への遷移リンク集（色バリアント=意味付けのないUIデモ） -->
+		<a class="my-btn-primary"   th:href="@{/test/breadcrump}">btn-primary　リンク先：breadcrump</a>
+		<a class="my-btn-secondary" th:href="@{/test/buttons}">btn-secondary　リンク先：buttons</a>
+		<a class="my-btn-success"   th:href="@{/test/listGroup}">btn-success　リンク先：listGroup</a>
+		<a class="my-btn-danger"    th:href="@{/test/rowCols}">btn-danger　リンク先：rowCols</a>
+		<a class="my-btn-warning"   th:href="@{/test/btnGroupVertical}">btn-warning　リンク先：btnGroupVertical</a>
+		<a class="my-btn-info"      th:href="@{/test/form}">btn-info　リンク先：form</a>
+		<a class="my-btn-light"     th:href="@{/test/table}">btn-light　リンク先：table</a>
+		<a class="my-btn-dark"      th:href="@{/test/codeBlock}">btn-dark　リンク先：codeBlock</a>
+		<a class="my-btn-dark"      th:href="@{/test/validation}">btn-dark　リンク先：validation</a>
+		<a class="my-btn-secondary" th:href="@{/test/alert}">btn-secondary　リンク先：alert</a>
+		<a class="my-btn-success"   th:href="@{/test/navbarUser}">btn-success　リンク先：navbar-user</a>
+		<a class="my-btn-success"   th:href="@{/test/navbarAdmin}">btn-success　リンク先：navbar-admin</a>
+		<a class="my-btn-success"   th:href="@{/test/accordion}">btn-success　リンク先：accordion</a>
+		<a class="my-btn-success"   th:href="@{/test/dropdown}">btn-success　リンク先：dropdown</a>
+		<a class="my-btn-success"   th:href="@{/test/select}">btn-success　リンク先：select</a>
+		<a class="my-btn-success"   th:href="@{/test/pagination}">btn-success　リンク先：pagination</a>
+		<a class="my-btn-success"   th:href="@{/test/tooltips}">btn-success　リンク先：tooltips</a>
+		<a class="my-btn-success"   th:href="@{/test/modal}">btn-success　リンク先：modal</a>
+		<a class="my-btn-success"   th:href="@{/test/card}">btn-success　リンク先：card</a>
+		<a class="my-btn-success"   th:href="@{/test/footer}">btn-success　リンク先：footer</a>
+		<!-- [fragment: buttons] END -->
+		<!-- [main] END -->
+	</body>
+	<!-- [body] END -->
+</html>

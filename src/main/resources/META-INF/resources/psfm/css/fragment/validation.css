@@ -1,0 +1,137 @@
+/* ----------------------------------------------------------------
+   validation.css（入力バリデーションの視覚表現）
+   目的：
+    - .my-validation-container に valid/invalid の状態クラスを付与して外観を切替。
+    - form.css の .my-form-input（擬似ラベル）とも連携して色を変える。
+
+   DOM前提（例）：
+    <div class="my-validation-container my-is-invalid">
+      <div class="my-form-input" data-text="ユーザー名">
+        <input type="text" />
+      </div>
+      <div class="my-valid">OK</div>
+      <div class="my-invalid">エラーがあります</div>
+      <svg class="my-validation-icon invalid" .../>
+    </div>
+
+   依存トークン（var.css）：
+    - 色：--color-primary/success/danger
+    - 不透明度：--opacity-25/50/75（※ md 等は未定義のためフォールバックを併記）
+    - 余白/文字：--spacer-*, --font-size-*, --line-height-*
+    - ラベル：--form-label-offset
+------------------------------------------------------------------*/
+
+/* === Neutral Focus (validation 前) === */
+.my-validation-container:not(.my-is-valid):not(.my-is-invalid) input:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+}
+
+/* === Success === */
+.my-validation-container.my-is-valid input {
+	border-color: var(--color-success);
+}
+.my-validation-container.my-is-valid input:focus {
+	border-color: var(--color-success);
+	box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, var(--opacity-25, 0.25)); /* フォールバック */
+}
+.my-validation-container.my-is-valid .my-form-input::after {
+	top: var(--form-label-offset);
+	font-size: var(--font-size-sm);
+	color: var(--color-success);
+}
+
+/* === Error === */
+.my-validation-container.my-is-invalid input {
+	border-color: var(--color-danger);
+}
+.my-validation-container.my-is-invalid input:focus {
+	border-color: var(--color-danger);
+	box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, var(--opacity-25, 0.25)); /* フォールバック */
+}
+.my-validation-container.my-is-invalid .my-form-input::after {
+	top: var(--form-label-offset);
+	font-size: var(--font-size-sm);
+	color: var(--color-danger);
+}
+
+/* === アイコン配置 === */
+.my-validation-container {
+	position: relative;
+	margin-bottom: var(--spacer-3);
+}
+.my-validation-icon {
+	position: absolute;
+	right: var(--spacer-3);
+	top: 50%;
+	transform: translateY(-50%);
+	width: 1rem;
+	height: 1rem;
+	pointer-events: none;
+}
+.my-validation-icon.valid { color: var(--color-success); }
+.my-validation-icon.invalid { color: var(--color-danger); }
+
+/* === メッセージ === */
+.my-valid,
+.my-invalid {
+	display: none;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: var(--font-size-sm);
+	margin-top: var(--spacer-1);
+}
+.my-validation-container.my-is-valid .my-valid {
+	display: block;
+	color: var(--color-success);
+}
+.my-validation-container.my-is-invalid .my-invalid {
+	display: block;
+	color: var(--color-danger);
+}
+
+/* === Neutral Focus (validation 前) === */
+.my-validation-container:not(.my-is-valid):not(.my-is-invalid) input:focus,
+.my-validation-container:not(.my-is-valid):not(.my-is-invalid) select:focus,
+.my-validation-container:not(.my-is-valid):not(.my-is-invalid) textarea:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+}
+
+/* === Success === */
+.my-validation-container.my-is-valid input,
+.my-validation-container.my-is-valid select,
+.my-validation-container.my-is-valid textarea {
+	border-color: var(--color-success);
+}
+.my-validation-container.my-is-valid input:focus,
+.my-validation-container.my-is-valid select:focus,
+.my-validation-container.my-is-valid textarea:focus {
+	border-color: var(--color-success);
+	box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, var(--opacity-25, 0.25));
+}
+.my-validation-container.my-is-valid .my-form-input::after {
+	top: var(--form-label-offset);
+	font-size: var(--font-size-sm);
+	color: var(--color-success);
+}
+
+/* === Error === */
+.my-validation-container.my-is-invalid input,
+.my-validation-container.my-is-invalid select,
+.my-validation-container.my-is-invalid textarea {
+	border-color: var(--color-danger);
+}
+.my-validation-container.my-is-invalid input:focus,
+.my-validation-container.my-is-invalid select:focus,
+.my-validation-container.my-is-invalid textarea:focus {
+	border-color: var(--color-danger);
+	box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, var(--opacity-25, 0.25));
+}
+.my-validation-container.my-is-invalid .my-form-input::after {
+	top: var(--form-label-offset);
+	font-size: var(--font-size-sm);
+	color: var(--color-danger);
+}

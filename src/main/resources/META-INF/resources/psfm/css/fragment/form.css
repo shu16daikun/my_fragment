@@ -1,0 +1,143 @@
+/* ----------------------------------------------------------------
+   form.css（フローティングラベル付き入力）
+   目的：
+    - data-text で与えたラベルを擬似要素で描画し、フォーカス/入力で“浮かす”。
+
+   DOM前提（例）：
+    <div class="my-form-input" data-text="ユーザー名">
+      <input type="text" ... />
+    </div>
+   - JS側で以下のクラス管理を想定
+     - .focused : フォーカス中に付与（※本CSSは :focus-within でも追従）
+     - .filled  : 値が入ったら付与（blur時に判定）
+
+   依存トークン（var.css）：
+    - 余白：--input-padding-*, --spacer-*
+    - 枠/角/背景：--border-*, --radius, --color-light
+    - 文字：--font-family-sans, --font-size-*, --line-height-*
+    - ラベル：--form-label-offset, --form-label-transition, --form-label-bg, --color-muted
+    - フォーカス：--color-primary
+------------------------------------------------------------------*/
+
+/* = Reset（入力系の box-sizing を統一） ======================= */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* = Wrapper（1入力あたりの枠） ================================ */
+.my-form-input {
+	position: relative;
+	width: 100%;
+	margin-bottom: var(--spacer-3);
+}
+
+/* = input 共通 ================================================== */
+.my-form-input input {
+	display: block;
+	width: 100%;
+	padding: var(--input-padding-top) var(--input-padding-x) var(--input-padding-bottom);
+	font-size: var(--font-size-base);
+	border-width: var(--border-width);
+	border-style: var(--border-style);
+	border-color: var(--border-color);
+	border-radius: var(--radius);
+	background-color: var(--color-light);
+	transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+	font-family: var(--font-family-sans);
+	line-height: var(--line-height-base);
+}
+
+/* = Neutral Focus（バリデ前） ================================= */
+.my-form-input input:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+}
+
+/* = Floating Label（擬似要素でラベル） ======================== */
+.my-form-input::after {
+	content: attr(data-text);
+	position: absolute;
+	left: var(--input-padding-x);
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: var(--font-size-base);
+	color: var(--color-muted);
+	transition: all var(--form-label-transition);
+	pointer-events: none;
+	background: var(--form-label-bg);
+}
+
+/* = Focus / Filled：ラベルを浮かせる =========================== */
+.my-form-input.focused::after,
+.my-form-input.filled::after,
+.my-form-input:focus-within::after {
+	top: var(--form-label-offset);
+	font-size: var(--font-size-sm);
+	color: var(--border-color-dark);
+}
+
+/* === select ==================================================== */
+.my-form-input select {
+	display: block;
+	width: 100%;
+	/* ラベル分のクリアランスを上側に追加（タイトルが上に浮く前提） */
+	padding-top: calc(var(--input-padding-top) + var(--font-size-sm) + 4px);
+}
+
+/* Neutral Focus（input と同じ） */
+.my-form-input select:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+}
+
+/* select 用：常に“浮いた”位置に固定（重なり防止） */
+.my-form-input.is-select::after {
+	top: var(--form-label-offset);
+	transform: none;
+	font-size: var(--font-size-sm);
+	color: var(--border-color-dark);
+}
+
+/* === textarea ================================================== */
+/* HTML側で <textarea class="my-form-textarea" rows="5"> を付ける前提 */
+.my-form-input textarea.my-form-textarea {
+	display: block;
+	width: 100%;
+	padding: var(--input-padding-top) var(--input-padding-x) var(--input-padding-bottom);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	font-family: var(--font-family-sans);
+	border-width: var(--border-width);
+	border-style: var(--border-style);
+	border-color: var(--border-color);
+	border-radius: var(--radius);
+	background-color: var(--color-light);
+	transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+	/* 5行固定 & リサイズ禁止 */
+	resize: none;
+	overflow-y: auto;
+	/* 行高を 1em 換算にして 5行分 + 上下パディングで固定 */
+	--_row-h: calc(var(--line-height-base) * 1em);
+	min-height: calc(var(--_row-h) * 5 + var(--input-padding-top) + var(--input-padding-bottom));
+	height: calc(var(--_row-h) * 5 + var(--input-padding-top) + var(--input-padding-bottom));
+	max-height: calc(var(--_row-h) * 5 + var(--input-padding-top) + var(--input-padding-bottom));
+}
+
+/* textarea のフォーカス */
+.my-form-input textarea.my-form-textarea:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+}
+
+/* （任意）textarea も select と同様、初期からラベルを浮かせたい場合は is-textarea を wrapper に */
+.my-form-input.is-textarea::after {
+	top: var(--form-label-offset);
+	transform: none;
+	font-size: var(--font-size-sm);
+	color: var(--border-color-dark);
+}

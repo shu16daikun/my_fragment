@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('RowCols', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/rowCols.css}">
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: row-cols max-5] START -->
+		<div class="my-row-cols-responsive-max-5">
+			<div><a href="#">問1</a></div>
+			<div><a href="#">問2</a></div>
+			<div><a href="#">問3</a></div>
+			<div><a href="#">問4</a></div>
+			<div><a href="#">問5</a></div>
+			<div><a href="#">問6</a></div>
+			<div><a href="#">問7</a></div>
+			<div><a href="#">問8</a></div>
+			<div><a href="#">問9</a></div>
+			<div><a href="#">問10</a></div>
+			<div><a href="#">問11</a></div>
+			<div><a href="#">問12</a></div>
+			<div><a href="#">問13</a></div>
+			<div><a href="#">問14</a></div>
+			<div><a href="#">問15</a></div>
+			<div><a href="#">問16</a></div>
+			<div><a href="#">問17</a></div>
+			<div><a href="#">問18</a></div>
+			<div><a href="#">問19</a></div>
+		</div>
+		<!-- [fragment: row-cols max-5] END -->
+
+		<!-- [fragment: row-cols max-4] START -->
+		<div class="my-row-cols-responsive-max-4" style="margin-top: var(--spacer-4);">
+			<div><a href="#">A</a></div>
+			<div><a href="#">B</a></div>
+			<div><a href="#">C</a></div>
+			<div><a href="#">D</a></div>
+			<div><a href="#">E</a></div>
+			<div><a href="#">F</a></div>
+			<div><a href="#">G</a></div>
+			<div><a href="#">H</a></div>
+			<div><a href="#">I</a></div>
+		</div>
+		<!-- [fragment: row-cols max-4] END -->
+
+		<!-- [fragment: row-cols max-3] START -->
+		<div class="my-row-cols-responsive-max-3" style="margin-top: var(--spacer-4);">
+			<div><a href="#">α</a></div>
+			<div><a href="#">β</a></div>
+			<div><a href="#">γ</a></div>
+			<div><a href="#">δ</a></div>
+			<div><a href="#">ε</a></div>
+			<div><a href="#">ζ</a></div>
+		</div>
+		<!-- [fragment: row-cols max-3] END -->
+	</body>
+	<!-- [body] END -->
+</html>

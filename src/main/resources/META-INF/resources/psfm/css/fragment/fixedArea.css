@@ -1,0 +1,51 @@
+/* ----------------------------------------------------------------
+   fixedArea.css（右上固定エリア）
+   目的：
+    - ナビバーの“下”に、右上固定の小さな情報ボックス（トースト等）を置く。
+
+   主なクラス：
+    - .my-fixed-top-right        : 右上固定。navbar高さとセーフエリアを考慮して配置。
+    - .my-fixed-top-right--overlay（任意）: 上位レイヤで重ねたいときの z-index 変更版。
+    - .my-fixed-box              : 中の見た目（背景/角/影など）を整えるヘルパー。
+
+   依存トークン（var.css）：
+    - 高さ/余白：--navbar-height, --spacer-*
+    - 色/角/影：--color-dark, --color-light, --radius, --shadow
+    - レイヤ：--zindex-fixed, --zindex-overlay
+    - セーフエリア：env(safe-area-inset-*)
+------------------------------------------------------------------*/
+
+/* ===== 固定配置: 画面右上（ナビバーの“下”に固定） ===== */
+.my-fixed-top-right{
+	position: fixed;
+	top: calc(env(safe-area-inset-top) + var(--navbar-height) + var(--spacer-2));
+	right: calc(env(safe-area-inset-right) + var(--spacer-4));
+	z-index: var(--zindex-fixed); /* navbar(1120)より下にする：1030 付近 */
+	pointer-events: auto;
+}
+
+/* 上位レイヤに重ねたい場合の薄いバリアント（必要時に付与） */
+.my-fixed-top-right--overlay{
+	z-index: var(--zindex-overlay); /* 1100 */
+}
+
+/* 中に置くボックスの見た目（任意） */
+.my-fixed-box{
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacer-2);
+	padding: var(--spacer-2) var(--spacer-3);
+	background: var(--color-dark);
+	color: var(--color-light);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+}
+
+/* スマホでの微調整（少し内側へ） */
+@media (max-width: 575.98px){
+	.my-fixed-top-right,
+	.my-fixed-top-right--overlay{
+		top: calc(env(safe-area-inset-top) + var(--spacer-2));
+		right: calc(env(safe-area-inset-right) + var(--spacer-2));
+	}
+}

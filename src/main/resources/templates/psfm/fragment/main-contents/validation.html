@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Validation', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/form.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/validation.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<script type="module" th:src="@{/psfm/js/main-contents/test/validation.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- 共通アイコン（validation.js が <use> 参照） -->
+		<div th:replace="~{psfm/fragment/svg/icons :: svg-icons}"></div>
+
+		<!-- [fragment: validation-submit-only] START -->
+		<p>送信時のみバリデーションチェック</p>
+		<form class="my-validation">
+			<div class="my-validation-container">
+				<div class="my-form-input" data-text="ユーザー名">
+					<input type="text" class="my-form-control" minlength="3" required>
+				</div>
+				<div class="my-valid">OK!</div>
+				<div class="my-invalid">ユーザー名は3文字以上必要です</div>
+			</div>
+			<div class="my-validation-container">
+				<div class="my-form-input" data-text="パスワード">
+					<input type="password" class="my-form-control" minlength="8" required>
+				</div>
+				<div class="my-valid">パスワードOK!</div>
+				<div class="my-invalid">パスワードは8文字以上必要です</div>
+			</div>
+			<button type="submit" class="my-btn-primary">送信</button>
+		</form>
+		<!-- [fragment: validation-submit-only] END -->
+
+		<br>
+
+		<!-- [fragment: validation-input-change] START -->
+		<p>送信時、入力時にバリデーションチェック</p>
+		<form class="my-validation-input-change">
+			<div class="my-validation-container">
+				<div class="my-form-input" data-text="ユーザー名">
+					<input type="text" minlength="3" required>
+				</div>
+				<div class="my-valid">OK!</div>
+				<div class="my-invalid">ユーザー名は3文字以上必要です</div>
+			</div>
+			<div class="my-validation-container">
+				<div class="my-form-input" data-text="パスワード">
+					<input type="password" minlength="8" required>
+				</div>
+				<div class="my-valid">パスワードOK!</div>
+				<div class="my-invalid">パスワードは8文字以上必要です</div>
+			</div>
+			<button type="submit" class="my-btn-primary">送信</button>
+		</form>
+		<!-- [fragment: validation-input-change] END -->
+	</body>
+	<!-- [body] END -->
+</html>

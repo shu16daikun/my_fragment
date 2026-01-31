@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+	<!-- [header] START -->
+	<head th:replace="~{psfm/fragment/common :: test-header('Tooltips', ~{::extraHead})}">
+		<!-- [fragment-slot: extraHead] START -->
+		<th:block th:fragment="extraHead">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/tooltips.css}">
+			<link rel="stylesheet" media="all" th:href="@{/psfm/css/fragment/buttons.css}">
+			<script type="module" th:src="@{/psfm/js/main-contents/test/tooltips.js}"></script>
+		</th:block>
+		<!-- [fragment-slot: extraHead] END -->
+	</head>
+	<!-- [header] END -->
+
+	<!-- [body] START -->
+	<body>
+		<!-- [fragment: content-dummy] START -->
+		<div>
+			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+			aaaaaaaaaaaaaa<br>
+		</div>
+		<!-- [fragment: content-dummy] END -->
+
+		<!-- [fragment: tooltip-button] START -->
+		<a class="my-btn-primary my-tooltips" data-title="現在のページから移動するとデータが保存されません" href="#">
+			Tooltip on top
+		</a>
+		<!-- [fragment: tooltip-button] END -->
+	</body>
+	<!-- [body] END -->
+</html>

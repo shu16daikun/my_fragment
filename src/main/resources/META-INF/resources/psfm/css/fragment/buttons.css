@@ -1,0 +1,194 @@
+/* ----------------------------------------------------------------
+   buttons.css（ボタン：色バリアントのみで成立）
+   目的：
+    - 「.my-btn-<variant>」クラス単体でボタンを完成させる（基底 .my-btn 不要）。
+    - 色（背景/枠/hover）だけ切替、レイアウトは共通。
+
+   使用例：
+    <a class="my-btn-primary" href="#">保存</a>
+    <button class="my-btn-danger">削除</button>
+
+   依存変数（var.css）：
+    - 余白/角/影/速度：--btn-padding-*, --btn-radius, --shadow-sm, --transition-fast
+    - 色：--color-*
+    - フォント：--font-weight-normal, --btn-font-size
+    - 行間：--btn-line-height（未定義時は --line-height-base をフォールバック）
+
+   注意：
+    - line-height は var(--btn-line-height, var(--line-height-base)) で安全化。
+------------------------------------------------------------------*/
+
+/* =========================
+   Base: .my-btn-*（色クラス）だけに適用
+   ========================= */
+
+/* ここが“共通ボタン”の土台。色クラスにだけ当たる */
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+){
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: var(--font-weight-normal);
+	/* ▼ 未定義対策：--btn-line-height が無ければ --line-height-base を使う */
+	line-height: var(--btn-line-height, var(--line-height-base));
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	user-select: none;
+	padding: var(--btn-padding-y) var(--btn-padding-x);
+	font-size: var(--btn-font-size);
+	border-radius: var(--btn-radius);
+	border: var(--border-width) solid transparent;
+	transition:
+		background-color var(--transition-fast),
+		box-shadow var(--transition-fast);
+}
+
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+):focus{
+	outline: 0;
+	box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+   Variants: 色だけ上書き
+   ========================= */
+
+.my-btn-primary  { background-color: var(--color-primary);   border-color: var(--color-primary); }
+.my-btn-primary:hover  { background-color: var(--color-primary-hover);   border-color: var(--color-primary-hover); }
+
+.my-btn-secondary{ background-color: var(--color-secondary); border-color: var(--color-secondary); }
+.my-btn-secondary:hover{ background-color: var(--color-secondary-hover); border-color: var(--color-secondary-hover); }
+
+.my-btn-success  { background-color: var(--color-success);   border-color: var(--color-success); }
+.my-btn-success:hover  { background-color: var(--color-success-hover);   border-color: var(--color-success-hover); }
+
+.my-btn-danger   { background-color: var(--color-danger);    border-color: var(--color-danger); }
+.my-btn-danger:hover   { background-color: var(--color-danger-hover);    border-color: var(--color-danger-hover); }
+
+.my-btn-warning  { background-color: var(--color-warning);   border-color: var(--color-warning); color: var(--color-text); }
+.my-btn-warning:hover  { background-color: var(--color-warning-hover);   border-color: var(--color-warning-hover); }
+
+.my-btn-info     { background-color: var(--color-info);      border-color: var(--color-info); }
+.my-btn-info:hover     { background-color: var(--color-info-hover);      border-color: var(--color-info-hover); }
+
+.my-btn-light    { background-color: var(--color-light);     border-color: var(--color-light); color: var(--color-text); }
+.my-btn-light:hover    { background-color: var(--color-light-hover);     border-color: var(--color-light-hover); }
+
+.my-btn-dark     { background-color: var(--color-dark);      border-color: var(--color-dark); }
+.my-btn-dark:hover     { background-color: var(--color-dark-hover);      border-color: var(--color-dark-hover); }
+
+/* =========================
+   States: disabled（押せない感を統一）
+   - button要素の disabled と、a要素等の aria-disabled を同等に扱う
+   ========================= */
+
+/* 見た目の無効化 */
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+):disabled,
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+)[aria-disabled="true"]{
+	opacity: var(--btn-disabled-opacity, .48);
+	cursor: not-allowed;
+	box-shadow: none;
+	pointer-events: none; /* a[aria-disabled] もクリック不可に寄せる */
+}
+
+/* 無効時は hover/active/focus で見た目が変わらないよう固定 */
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+):disabled:hover,
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+)[aria-disabled="true"]:hover,
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+):disabled:active,
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+)[aria-disabled="true"]:active,
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+):disabled:focus,
+:is(
+	.my-btn-primary,
+	.my-btn-secondary,
+	.my-btn-success,
+	.my-btn-danger,
+	.my-btn-warning,
+	.my-btn-info,
+	.my-btn-light,
+	.my-btn-dark
+)[aria-disabled="true"]:focus{
+	opacity: var(--btn-disabled-opacity, .48);
+	box-shadow: none;
+}

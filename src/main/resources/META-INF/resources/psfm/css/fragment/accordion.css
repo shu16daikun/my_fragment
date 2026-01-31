@@ -1,0 +1,111 @@
+/* ----------------------------------------------------------------
+   accordion.css（アコーディオン）
+   目的：
+    - 見出し行をクリック/タップでボディ部を開閉するUI。
+
+   DOM前提（例）：
+    <div class="my-accordion">
+      <div class="my-accordion-item">
+        <h3 class="my-accordion-header">
+          <button type="button" aria-expanded="false">
+            <span class="my-accordion-toggle">
+              <span class="my-accordion-title">タイトル</span>
+              <span class="my-accordion-icon">⌄</span>
+            </span>
+          </button>
+        </h3>
+        <div class="my-accordion-collapse">   <!-- JSで .show を付与/除去 -->
+          <div class="my-accordion-body">本文...</div>
+        </div>
+      </div>
+      ...
+    </div>
+
+   状態管理：
+    - ボタンに aria-expanded="true|false" を付与（JS側）
+    - 折りたたみ要素に .show を付与すると max-height で展開
+    - アイコンは expanded=true で回転
+
+   依存変数（var.css）：
+    - 枠線/角丸：--border-width, --border-style, --accordion-border-color, --accordion-border-radius
+    - 背景/色：--accordion-bg, --accordion-header-bg, --accordion-header-bg-hover, --accordion-header-color-hover
+    - 余白：--accordion-body-padding
+    - アニメ：--accordion-transition, --accordion-icon-rotate
+    - 最大展開高さ：--accordion-max-height
+------------------------------------------------------------------*/
+
+/* = Wrapper ===================================================== */
+.my-accordion {
+	border: var(--border-width) var(--border-style) var(--accordion-border-color);
+	border-radius: var(--accordion-border-radius);
+	overflow: hidden;
+	background: var(--accordion-bg);
+}
+
+/* = Item ======================================================== */
+.my-accordion .my-accordion-item {
+	border-bottom: var(--border-width) var(--border-style) var(--accordion-border-color);
+}
+
+/* = Header ====================================================== */
+.my-accordion .my-accordion-header{
+	margin: 0;
+}
+
+.my-accordion .my-accordion-header button {
+	width: 100%;
+	box-sizing: border-box;
+	text-align: left;
+	background: var(--accordion-header-bg);
+	padding: var(--accordion-body-padding);
+	font-weight: var(--accordion-font-weight);
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: background-color var(--accordion-transition), color var(--accordion-transition);
+}
+
+/* Hover（見出し行） */
+.my-accordion .my-accordion-header button:hover {
+	background: var(--accordion-header-bg-hover);
+	color: var(--accordion-header-color-hover);
+}
+
+/* = Toggle Line（タイトル＋アイコンの横並び） =================== */
+.my-accordion-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* アイコンの回転にアニメ付与 */
+.my-accordion-toggle .my-accordion-icon {
+	transition: transform var(--accordion-transition);
+}
+
+/* 展開時の回転
+   NOTE: 実DOMでは aria-expanded は通常 button に載る想定。
+         そのため button[aria-expanded="true"] を起点に子アイコンを回す。 */
+.my-accordion .my-accordion-header button[aria-expanded="true"] .my-accordion-icon {
+	transform: rotate(var(--accordion-icon-rotate));
+}
+
+/* = Collapse（折りたたみ本体） ================================ */
+.my-accordion .my-accordion-collapse {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height var(--accordion-transition);
+}
+
+/* 展開状態（JSで .show を付与） */
+.my-accordion .my-accordion-collapse.show {
+	max-height: var(--accordion-max-height);
+	transition: max-height var(--accordion-transition);
+}
+
+/* = Body（中身） ================================================ */
+.my-accordion .my-accordion-body {
+	padding: var(--accordion-body-padding);
+	background: var(--accordion-body-bg);
+	color: var(--color-text);
+}
